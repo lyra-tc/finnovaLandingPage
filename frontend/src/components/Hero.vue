@@ -36,13 +36,22 @@
       <h4>Coming Soon</h4>
     </div>
     <div class="text-center">
-      <h4 href="#waitlist" class="btn-waitlist mx-auto mt-6 md:mt-12 md:px-12 md:py-3 inline-block font-semibold text-base md:text-lg lg:text-xl">Join the Waitlist</h4>
+      <a 
+        href="#waitlist" 
+         @click="isFormsOpen = true"
+        class="btn-waitlist mx-auto mt-6 md:mt-12 md:px-12 md:py-3 inline-block font-semibold text-base md:text-lg lg:text-xl"
+      >
+        Join the Waitlist
+      </a>
     </div>
+    <Forms :open="isFormsOpen" @close="isFormsOpen = false" />
   </section>
 </template>
 
 <script setup>
-// No script needed for now
+import { ref } from 'vue';
+import Forms from '@/components/Forms.vue';
+const isFormsOpen = ref(false);
 </script>
 
 <style scoped>
