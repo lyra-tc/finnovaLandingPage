@@ -1,4 +1,4 @@
-![CI](https://github.com/Ricardo0919/studyconnect-software-testing/actions/workflows/ci.yml/badge.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2a2a1aa7-6cd2-4a63-ae34-a4b412567a97/deploy-status)](https://app.netlify.com/projects/finnova-fintech/deploys)
 
 # Finnova — Landing Page
 
