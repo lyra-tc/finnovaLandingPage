@@ -14,4 +14,4 @@ import Investment from './components/Investment.vue';
   <Footer />
 </template>
 
-<style scoped></style>
+
