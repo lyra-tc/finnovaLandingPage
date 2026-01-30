@@ -96,9 +96,9 @@
         <div class="py-6 w-full flex justify-center">
           <p class="w-full text-left text-xs text-white/60">
             © {{ year }} Finnova. Todos los derechos reservados.
-            <a href="https://lyratech.com.mx/" target="_blank" rel="noopener noreferrer"
+            <a href="https://lyratech.com.mx/"
                class="link-underline text-white"
-               @click="(e) => { e.preventDefault(); /* aquí navegas a donde quieras */ }">
+               @click="(e) => openExternalWithAnim(e, 'https://lyratech.com.mx/')">
               Desarrollado por LyraTech
             </a>
 
@@ -127,6 +127,19 @@ function openWaitlistWithAnim(e: Event) {
     isFormsOpen.value = true;
   }, 220);
 }
+
+function openExternalWithAnim(e: Event, url: string) {
+  e.preventDefault();
+
+  const target = e.currentTarget as HTMLElement | null;
+  target?.classList.add("is-tapped");
+
+  window.setTimeout(() => {
+    target?.classList.remove("is-tapped");
+    window.open(url, "_blank", "noopener,noreferrer");
+  }, 220);
+}
+
 
 
 import { Icon } from "@iconify/vue";

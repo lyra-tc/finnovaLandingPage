@@ -3,7 +3,7 @@
     <Transition name="fade">
       <div
           v-if="open"
-          class="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6"
+          class="fixed inset-0 z-999 flex items-center justify-center p-4 sm:p-6"
           role="dialog"
           aria-modal="true"
           aria-label="Waitlist form"
@@ -95,6 +95,35 @@
               </button>
             </div>
 
+            <!-- Opt-in -->
+            <label class="flex items-start gap-3 rounded-xl border border-white/15 bg-white/5 px-4 py-3 cursor-pointer select-none">
+              <!-- input real -->
+              <input v-model="form.updatesOptIn" type="checkbox" class="peer sr-only" />
+              <!-- caja -->
+              <span
+                  class="grid h-5 w-5 place-items-center rounded-md border border-white/30 bg-transparent
+                       transition-all duration-200
+                       peer-checked:bg-white peer-checked:border-white
+                       peer-checked:[&>svg]:opacity-100"
+              >
+                <!-- palomita (negra) -->
+                <svg
+                    class="h-3.5 w-3.5 opacity-0 transition-opacity duration-150"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="black"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </span>
+              <span class="text-sm text-white/85 leading-snug">
+                Deseo recibir notificaciones y actualizaciones
+              </span>
+            </label>
+
             <!-- Privacy -->
             <p class="text-left text-xs text-white/45">
               Al enviar aceptas nuestra
@@ -110,26 +139,18 @@
 <script setup lang="ts">
 import { reactive, ref, watch, onBeforeUnmount } from "vue";
 import logoName from "../assets/forms/LogoName.png";
+import { postWaitlist } from "@/api/waitlist";
+import type { WaitlistPayload } from "@/api/types";
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ (e: "close"): void }>();
-
-// 🔧 Config API (ajusta esto)
-const API_BASE = import.meta.env.VITE_API_BASE_URL || ""; // ej: https://api.tuapp.com
-const ENDPOINT = "/waitlist"; // ej: /api/waitlist
-
-type WaitlistPayload = {
-  name: string;
-  phone: string;
-  email: string;
-  age: string;
-};
 
 const form = reactive<WaitlistPayload>({
   name: "",
   phone: "",
   email: "",
-  age: "",
+  age: 0,
+  updatesOptIn: true, // ✅ default true
 });
 
 const loading = ref(false);
@@ -137,15 +158,15 @@ const error = ref<string | null>(null);
 const success = ref(false);
 
 function close() {
-  if (loading.value) return; // opcional: bloquea cerrar mientras envía
+  if (loading.value) return;
   emit("close");
 }
 
 function validate(): string | null {
-  if (!form.name || form.name.length < 3) return "Pon tu nombre completo (mínimo 3 letras).";
-  if (!form.phone || form.phone.length < 8) return "Pon un teléfono válido.";
+  if (!form.name || form.name.trim().length < 3) return "Pon tu nombre completo (mínimo 3 letras).";
+  if (!form.phone || form.phone.trim().length < 8) return "Pon un teléfono válido.";
   if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return "Pon un correo válido.";
-  if (!form.age) return "Pon tu edad.";
+  if (!Number.isFinite(form.age) || form.age <= 0) return "Pon tu edad.";
   return null;
 }
 
@@ -162,32 +183,23 @@ async function submit() {
   loading.value = true;
 
   try {
-    const res = await fetch(`${API_BASE}${ENDPOINT}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        age: Number(form.age),
-      }),
+    await postWaitlist({
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      email: form.email.trim(),
+      age: form.age,
+      updatesOptIn: form.updatesOptIn,
     });
-
-    if (!res.ok) {
-      // intenta leer un mensaje del backend
-      const text = await res.text().catch(() => "");
-      throw new Error(text || `Error ${res.status}`);
-    }
 
     success.value = true;
 
-    // limpia form (opcional)
+    // limpia form (mantén opt-in en true)
     form.name = "";
     form.phone = "";
     form.email = "";
-    form.age = "";
+    form.age = 22;
+    form.updatesOptIn = true;
 
-    // cierra después de un segundo (opcional)
     setTimeout(() => {
       emit("close");
       success.value = false;
@@ -199,7 +211,7 @@ async function submit() {
   }
 }
 
-// ✅ UX: bloquear scroll + cerrar con ESC
+// UX: bloquear scroll + cerrar con ESC
 function onKeyDown(e: KeyboardEvent) {
   if (e.key === "Escape" && props.open) close();
 }
@@ -222,6 +234,7 @@ onBeforeUnmount(() => {
   window.removeEventListener("keydown", onKeyDown);
 });
 </script>
+
 
 <style scoped>
 .input-glass {
