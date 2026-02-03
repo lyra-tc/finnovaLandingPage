@@ -6,148 +6,61 @@
         class="fixed inset-0 z-999 flex items-center justify-center p-4 sm:p-6"
         role="dialog"
         aria-modal="true"
-        aria-label="Waitlist form"
       >
-        <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/70 backdrop-blur-md" @click="close"></div>
 
-        <!-- Modal -->
-        <div
-          class="relative w-full max-w-[420px] sm:max-w-[560px] rounded-[24px] sm:rounded-[32px] bg-black/80 border border-white/20 shadow-[0_40px_120px_rgba(0,0,0,0.75)] px-5 sm:px-10 pt-3 sm:pt-10 pb-6 sm:pb-20 max-h-[calc(100dvh-1.5rem)] sm:max-h-none overflow-y-auto overscroll-contain"
+        <div class="relative w-full max-w-105 sm:max-w-140 rounded-3xl sm:rounded-4xl bg-black/80 border border-white/20 shadow-[0_40px_120px_rgba(0,0,0,0.75)] px-5 sm:px-10 pt-3 sm:pt-10 pb-6 sm:pb-20 max-h-[calc(100dvh-1.5rem)] sm:max-h-none overflow-y-auto"
         >
-          <!-- Header -->
           <div class="flex flex-col items-center text-center">
             <img :src="logoName" alt="Finnova" class="h-10 sm:h-14 w-auto select-none" />
             <p class="mt-4 sm:mt-6 text-base sm:text-2xl font-semibold leading-tight text-white">
-              Únete a la <span class="text-[#0FD985]">waitlist</span> y sé<br />
-              de los primeros.
+              Únete a la <span class="text-[#0FD985]">waitlist</span> y sé de los primeros.
             </p>
           </div>
 
-          <!-- Form -->
           <form class="mt-5 sm:mt-10 space-y-4 sm:space-y-6" @submit.prevent="submit">
-            <!-- Row 1 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <div class="text-left">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">Nombre</label>
-                <input
-                  v-model.trim="form.name"
-                  type="text"
-                  placeholder="Ricardo Sierra Roa"
-                  class="input-glass"
-                />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">Nombre completo</p>
+                <label class="block text-sm font-semibold text-white mb-1.5">Nombre</label>
+                <input v-model.trim="form.name" type="text" placeholder="Ricardo Sierra" class="input-glass" />
               </div>
-
               <div class="text-left">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2"
-                  >Teléfono</label
-                >
-                <input
-                  v-model.trim="form.phone"
-                  type="tel"
-                  placeholder="+52 55 5555 5555"
-                  class="input-glass"
-                />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">Para contacto rápido</p>
+                <label class="block text-sm font-semibold text-white mb-1.5">Teléfono</label>
+                <input v-model.trim="form.phone" type="tel" placeholder="+52 55..." class="input-glass" />
               </div>
             </div>
 
-            <!-- Row 2 -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
               <div class="text-left sm:col-span-2">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">Correo</label>
-                <input
-                  v-model.trim="form.email"
-                  type="email"
-                  placeholder="tu@correo.com"
-                  class="input-glass"
-                />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">
-                  Te mandaremos el acceso por aquí
-                </p>
+                <label class="block text-sm font-semibold text-white mb-1.5">Correo</label>
+                <input v-model.trim="form.email" type="email" placeholder="tu@correo.com" class="input-glass" />
               </div>
-
               <div class="text-left">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">Edad</label>
-                <input
-                  v-model.number="form.age"
-                  type="number"
-                  min="0"
-                  inputmode="numeric"
-                  placeholder="22"
-                  class="input-glass"
-                />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">Solo para segmentación</p>
+                <label class="block text-sm font-semibold text-white mb-1.5">Edad</label>
+                <input v-model.number="form.age" type="number" class="input-glass" />
               </div>
             </div>
 
-            <!-- Status messages -->
-            <div
-              v-if="error"
-              class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-left text-sm text-red-200"
-            >
+            <div v-if="error" class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
               {{ error }}
             </div>
 
-            <div
-              v-if="success"
-              class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-left text-sm text-emerald-100"
-            >
-              Listo ✅ Te registraste en la waitlist.
+            <div v-if="infoMessage" class="rounded-xl border border-blue-400/30 bg-blue-400/10 px-4 py-3 text-sm text-blue-100">
+              {{ infoMessage }}
             </div>
 
-            <!-- Actions -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <button
                 type="submit"
                 :disabled="loading"
-                class="w-full rounded-xl bg-[#0FD985] py-3 sm:py-3.5 text-sm font-black text-black transition-all duration-300 hover:brightness-110 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
+                class="w-full rounded-xl bg-[#0FD985] py-3 text-sm font-black text-black hover:brightness-110 disabled:opacity-60"
               >
-                <span v-if="!loading">Entrar a la waitlist</span>
-                <span v-else>Enviando…</span>
+                {{ loading ? 'Enviando...' : 'Entrar a la waitlist' }}
               </button>
-
-              <button
-                type="button"
-                class="w-full rounded-xl border border-white/25 bg-white/5 py-3 sm:py-3.5 text-sm font-black text-white/90 transition-all duration-300 hover:bg-white/10 hover:border-white/40 active:scale-[0.99]"
-                @click="close"
-                :disabled="loading"
-              >
+              <button type="button" @click="close" class="w-full rounded-xl border border-white/25 bg-white/5 py-3 text-sm font-black text-white">
                 Ahora no
               </button>
             </div>
-
-            <!-- Opt-in -->
-            <label
-              class="flex items-start gap-3 rounded-xl border border-white/15 bg-white/5 px-4 py-3 cursor-pointer select-none"
-            >
-              <input v-model="form.updatesOptIn" type="checkbox" class="peer sr-only" />
-              <span
-                class="grid h-5 w-5 place-items-center rounded-md border border-white/30 bg-transparent transition-all duration-200 peer-checked:bg-white peer-checked:border-white peer-checked:[&>svg]:opacity-100"
-              >
-                <svg
-                  class="h-3.5 w-3.5 opacity-0 transition-opacity duration-150"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="black"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M20 6L9 17l-5-5" />
-                </svg>
-              </span>
-              <span class="text-sm text-white/85 leading-snug">
-                Deseo recibir notificaciones y actualizaciones
-              </span>
-            </label>
-
-            <!-- Privacy -->
-            <p class="text-left text-xs text-white/45">
-              Al enviar aceptas nuestra
-              <a href="#" class="link-underline text-[#0FD985]">política de privacidad</a>
-            </p>
           </form>
         </div>
       </div>
@@ -174,81 +87,90 @@ const form = reactive<WaitlistPayload>({
 
 const loading = ref(false);
 const error = ref<string | null>(null);
-const success = ref(false);
 
 function close() {
   if (loading.value) return;
   emit('close');
 }
 
-function validate(): string | null {
-  if (!form.name || form.name.trim().length < 3) return 'Pon tu nombre completo (mínimo 3 letras).';
-  if (!form.phone || form.phone.trim().length < 8) return 'Pon un teléfono válido.';
-  if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return 'Pon un correo válido.';
-  if (!Number.isFinite(form.age) || form.age <= 0) return 'Pon tu edad.';
+function validate() {
+  if (!form.name || form.name.length < 3) return 'Nombre demasiado corto.';
+  if (!form.email.includes('@')) return 'Correo no válido.';
+  if (form.age <= 0) return 'Edad no válida.';
   return null;
 }
 
+const infoMessage = ref<string | null>(null);
+
 async function submit() {
   error.value = null;
-  success.value = false;
+  infoMessage.value = null;
 
-  const validationError = validate();
-  if (validationError) {
-    error.value = validationError;
+  const vError = validate();
+  if (vError) {
+    error.value = vError;
     return;
   }
 
   loading.value = true;
-
   try {
-    await postWaitlist({
-      name: form.name.trim(),
-      phone: form.phone.trim(),
-      email: form.email.trim(),
-      age: form.age,
-      updatesOptIn: form.updatesOptIn,
-    });
+    // Usamos 'any' aquí para evitar el error de overlap de TS temporalmente
+    let res: any = await postWaitlist({ ...form }) as any;
 
-    success.value = true;
+    console.log("Respuesta API (raw):", res, "typeof:", typeof res);
 
-    form.name = '';
-    form.phone = '';
-    form.email = '';
-    form.age = 22;
-    form.updatesOptIn = true;
+    // Si el backend devolvió texto JSON sin Content-Type, parsearlo
+    if (typeof res === 'string') {
+      try { res = JSON.parse(res); } catch { /* no JSON */ }
+    }
 
-    setTimeout(() => {
-      emit('close');
-      success.value = false;
-    }, 900);
+    const ok = !!(res && (res.ok === true || String(res.ok) === 'true' || res.ok === 1 || String(res.ok) === '1'));
+    const msg = String(res?.message || '').toLowerCase();
+
+    if (ok) {
+      // CASO DUPLICADO: El mensaje de tu Lambda dice "Ya estabas en la lista"
+      if (msg.includes('ya estabas') || msg.includes('lista')) {
+        infoMessage.value = "⚠️ Este correo ya está registrado en nuestra lista.";
+        // NO cerramos el modal, el usuario debe corregir o cerrar manualmente
+        loading.value = false;
+        return;
+      }
+
+      // CASO ÉXITO REAL: Registro nuevo
+      form.name = '';
+      form.phone = '';
+      form.email = '';
+      form.age = 0;
+
+      infoMessage.value = "🚀 ¡Bienvenido! Te has unido a la waitlist.";
+      close();
+    } else {
+      // Si ok no es true
+      error.value = res?.message || 'No pudimos procesar tu registro.';
+    }
   } catch (e: any) {
-    error.value = e?.message || 'No se pudo enviar. Intenta de nuevo.';
+    console.error("Error en submit:", e);
+    error.value = e.message || 'Error de conexión con el servidor.';
   } finally {
     loading.value = false;
   }
 }
 
-function onKeyDown(e: KeyboardEvent) {
-  if (e.key === 'Escape' && props.open) close();
+function onEscape(e: KeyboardEvent) {
+  if (e.key === 'Escape') close();
 }
 
-watch(
-  () => props.open,
-  (isOpen) => {
+watch(() => props.open, (isOpen) => {
+  if (isOpen) {
     error.value = null;
-    success.value = false;
-
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-    if (isOpen) window.addEventListener('keydown', onKeyDown);
-    else window.removeEventListener('keydown', onKeyDown);
-  },
-  { immediate: true }
-);
+    window.addEventListener('keydown', onEscape);
+  } else {
+    window.removeEventListener('keydown', onEscape);
+  }
+});
 
 onBeforeUnmount(() => {
-  document.body.style.overflow = '';
-  window.removeEventListener('keydown', onKeyDown);
+  window.removeEventListener('keydown', onEscape);
 });
 </script>
 
@@ -256,60 +178,13 @@ onBeforeUnmount(() => {
 .input-glass {
   width: 100%;
   border-radius: 14px;
-  padding: 10px 12px; /* mobile: más compacto */
+  padding: 10px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.9);
+  color: white;
   outline: none;
-  transition:
-    border-color 180ms ease,
-    background 180ms ease;
-  font-size: 14px; /* mobile */
 }
-@media (min-width: 640px) {
-  .input-glass {
-    padding: 12px 14px;
-    font-size: 16px;
-  }
-}
-
-.input-glass::placeholder {
-  color: rgba(255, 255, 255, 0.35);
-}
-.input-glass:focus {
-  border-color: rgba(15, 217, 133, 0.65);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.link-underline {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 4px;
-}
-.link-underline::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  border-radius: 999px;
-  background: #0fd985;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 240ms ease;
-}
-.link-underline:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 200ms ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+.input-glass:focus { border-color: #0FD985; }
+.fade-enter-active, .fade-leave-active { transition: opacity 200ms; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 </style>

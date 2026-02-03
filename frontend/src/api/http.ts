@@ -16,11 +16,23 @@ export class HttpError extends Error {
 }
 
 async function parseBody(res: Response) {
+  // Attempt to parse JSON when possible. Some servers omit the
+  // Content-Type header, so we try a robust fallback: read text
+  // and JSON.parse it when feasible.
   const contentType = res.headers.get('content-type') || '';
   if (contentType.includes('application/json')) {
     return res.json().catch(() => null);
   }
-  return res.text().catch(() => '');
+
+  const text = await res.text().catch(() => '');
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    // Not JSON, return raw text
+    return text;
+  }
 }
 
 export async function request<TResponse>(
