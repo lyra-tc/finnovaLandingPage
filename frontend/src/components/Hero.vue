@@ -41,7 +41,7 @@
          @click="isFormsOpen = true"
         class="btn-waitlist mx-auto mt-6 md:mt-12 md:px-12 md:py-3 inline-block font-semibold text-base md:text-lg lg:text-xl"
       >
-        Join the Waitlist
+        Join the Early Access
       </a>
     </div>
     <Forms :open="isFormsOpen" @close="isFormsOpen = false" />

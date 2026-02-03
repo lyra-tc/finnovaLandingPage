@@ -53,7 +53,7 @@
               class="link-underline text-white/80 hover:text-white/80"
               @click="openWaitlistWithAnim"
             >
-              WAITLIST
+              EARLY ACCESS
             </a>
             <Forms :open="isFormsOpen" @close="isFormsOpen = false" />
           </nav>

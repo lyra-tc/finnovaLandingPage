@@ -9,7 +9,7 @@
         <li><a href="#home" class="nav-link-hover">Home</a></li>
         <li><a href="#features" class="nav-link-hover">Features</a></li>
         <li><a href="#contact" class="nav-link-hover">Contact</a></li>
-        <li><a href="#waitlist" @click="isFormsOpen = true" class="btn-waitlist">Waitlist</a></li>
+        <li><a href="#waitlist" @click="isFormsOpen = true" class="btn-waitlist">Early Access</a></li>
       </ul>
 
       <button @click="isOpen = !isOpen" class="md:hidden z-50 text-white focus:outline-none">
@@ -53,7 +53,7 @@
               @click="((isOpen = false), (isFormsOpen = true))"
               href="#waitlist"
               class="btn-waitlist text-lg"
-              >Waitlist</a
+              >Early Access</a
             >
           </li>
         </ul>
