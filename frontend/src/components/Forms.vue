@@ -83,11 +83,17 @@
             </div>
 
             <!-- Status messages -->
-            <div v-if="error" class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+            <div
+              v-if="error"
+              class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+            >
               {{ error }}
             </div>
 
-            <div v-if="infoMessage" class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
+            <div
+              v-if="infoMessage"
+              class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100"
+            >
               {{ infoMessage }}
             </div>
 
@@ -177,9 +183,12 @@ function close() {
 
 function validate(): string | null {
   if (!form.name || form.name.trim().length < 3) return 'Pon tu nombre completo (mínimo 3 letras).';
-  if (!form.phone || form.phone.trim().length < 10) return 'Pon un teléfono válido.';
+  if (form.name.trim().length > 60) return 'El nombre no puede exceder los 60 caracteres.';
+  if (!form.phone || form.phone.trim().length <= 10 || form.phone.trim().length > 20)
+    return 'El teléfono debe tener entre 10 y 20 dígitos.';
   if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return 'Pon un correo válido.';
-  if (!Number.isFinite(form.age) || form.age <= 0) return 'Pon tu edad.';
+  if (!Number.isFinite(form.age) || form.age < 0 || form.age > 100)
+    return 'La edad debe estar entre 0 y 99 años.';
   return null;
 }
 
@@ -197,43 +206,54 @@ async function submit() {
 
   loading.value = true;
   try {
-    // Usamos 'any' aquí para evitar el error de overlap de TS temporalmente
-    let res: any = await postWaitlist({ ...form }) as any;
+    const payload = {
+      ...form,
+      name: form.name.replace(/<[^>]*>?/gm, '').trim(),
+      email: form.email.toLowerCase().trim().replace(/\s+/g, ''),
+      phone: form.phone.replace(/[^\d+]/g, '').replace(/^00/, '+'),
+      age: Math.min(99, Math.max(1, Math.trunc(form.age))),
+    };
+    let res: any = await postWaitlist(payload);
 
-    console.log("Respuesta API (raw):", res, "typeof:", typeof res);
-
-    // Si el backend devolvió texto JSON sin Content-Type, parsearlo
     if (typeof res === 'string') {
-      try { res = JSON.parse(res); } catch { /* no JSON */ }
+      try {
+        res = JSON.parse(res);
+      } catch {}
     }
 
-    const ok = !!(res && (res.ok === true || String(res.ok) === 'true' || res.ok === 1 || String(res.ok) === '1'));
+    const ok = !!(
+      res &&
+      (res.ok === true || String(res.ok) === 'true' || res.ok === 1 || String(res.ok) === '1')
+    );
+
     const msg = String(res?.message || '').toLowerCase();
 
     if (ok) {
-      // CASO DUPLICADO: El mensaje de tu Lambda dice "Ya estabas en la lista"
-      if (msg.includes('ya estabas') || msg.includes('lista')) {
-        error.value = "Este correo ya está registrado en nuestra lista.";
-        // NO cerramos el modal, el usuario debe corregir o cerrar manualmente
-        loading.value = false;
+      const isDuplicate =
+        msg.includes('ya estabas') ||
+        msg.includes('ya estás') ||
+        msg.includes('ya existe') ||
+        msg.includes('already') ||
+        msg.includes('duplicate');
+
+      if (isDuplicate) {
+        error.value = 'Este correo ya está registrado en nuestra lista.';
         return;
       }
 
-      // CASO ÉXITO REAL: Registro nuevo
       form.name = '';
       form.phone = '';
       form.email = '';
       form.age = null;
 
-      infoMessage.value = "¡Bienvenido! Te has unido a la waitlist.";
+      infoMessage.value = '¡Bienvenido! Te has unido a la waitlist.';
       close();
     } else {
-      // Si ok no es true
       error.value = res?.message || 'No pudimos procesar tu registro.';
     }
   } catch (e: any) {
-    console.error("Error en submit:", e);
-    error.value = e.message || 'Error de conexión con el servidor.';
+    console.error('Error en submit:', e);
+    error.value = e?.message || 'Error de conexión con el servidor.';
   } finally {
     loading.value = false;
   }

@@ -1,30 +1,9 @@
 <template>
-  <section class="relative w-full bg-black py-16 sm:py-20 overflow-hidden">
-    <!-- Bottom corner glows -->
-    <div class="pointer-events-none absolute inset-0">
-      <!-- bottom-left glow -->
-      <div
-        class="pointer-events-none absolute -left-32 -bottom-32 h-[360px] w-[360px] blur-[120px] md:-left-48 md:-bottom-48 md:h-[520px] md:w-[520px] md:blur-[150px] lg:-left-64 lg:-bottom-64 lg:h-[720px] lg:w-[720px] lg:blur-[180px]"
-        :style="{
-          background:
-            'radial-gradient(circle, rgba(15,217,133,0.65) 0%, rgba(15,217,133,0.25) 35%, rgba(15,217,133,0.0) 70%)',
-        }"
-      />
-
-      <!-- bottom-right glow -->
-      <div
-        class="pointer-events-none absolute -right-32 -bottom-32 h-[360px] w-[360px] blur-[120px] md:-right-48 md:-bottom-48 md:h-[520px] md:w-[520px] md:blur-[150px] lg:-right-64 lg:-bottom-64 lg:h-[720px] lg:w-[720px] lg:blur-[180px]"
-        :style="{
-          background:
-            'radial-gradient(circle, rgba(15,217,133,0.65) 0%, rgba(15,217,133,0.25) 35%, rgba(15,217,133,0.0) 70%)',
-        }"
-      />
-    </div>
-
+  <section class="relative w-full bg-transparent py-16 sm:py-20 overflow-hidden">
     <div class="relative mx-auto w-full max-w-5xl px-6 sm:px-10 lg:px-16">
       <!-- Title -->
       <h2
-        class="text-center font-semibold tracking-tight text-[#0FD985] text-2xl sm:text-3xl md:text-4xl"
+        class="text-center font-semibold tracking-tight text-[#0FD985] text-3xl sm:text-4xl md:text-5xl"
       >
         Que buscamos ...
       </h2>
