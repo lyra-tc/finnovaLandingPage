@@ -1,3 +1,11 @@
+<script setup>
+import Header from './components/Header.vue';
+import Hero from './components/Hero.vue';
+import HowItWorks from './components/HowItWorks.vue';
+import Investment from './components/Investment.vue';
+import Footer from './components/Footer.vue';
+</script>
+
 <template>
   <div class="relative min-h-screen bg-black overflow-hidden">
     <Header />
@@ -52,11 +60,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import Header from './components/Header.vue';
-import Hero from './components/Hero.vue';
-import HowItWorks from './components/HowItWorks.vue';
-import Investment from './components/Investment.vue';
-import Footer from './components/Footer.vue';
-</script>
