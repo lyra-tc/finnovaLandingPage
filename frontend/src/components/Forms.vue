@@ -160,6 +160,7 @@ import { reactive, ref, watch, onBeforeUnmount } from 'vue';
 import logoName from '../assets/forms/LogoName.png';
 import { postWaitlist } from '@/api/waitlist';
 import type { WaitlistPayload } from '@/api/types';
+import { sendWaitlistMail } from '@/api/mail';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
@@ -236,10 +237,21 @@ async function submit() {
         msg.includes('already') ||
         msg.includes('duplicate');
 
-      if (isDuplicate) {
+      /*if (isDuplicate) {
         error.value = 'Este correo ya está registrado en nuestra lista.';
         return;
-      }
+      }*/
+
+      sendWaitlistMail({
+        name: payload.name,
+        email: payload.email,
+      })
+          .then((r: any) => {
+            console.log('MAIL OK:', r);
+          })
+          .catch((e: any) => {
+            console.error('MAIL FAIL:', e);
+          });
 
       form.name = '';
       form.phone = '';
