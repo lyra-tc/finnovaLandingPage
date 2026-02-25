@@ -146,8 +146,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         // 🔥 Lee tu dominio público
-        const appUrl =
-            process.env.PUBLIC_APP_URL || 'https://finnova.com.mx';
+        const appUrl = process.env.PUBLIC_APP_URL || 'https://finnova.com.mx';
 
         const html = waitlistEmailHTML(String(name || ''), appUrl);
 

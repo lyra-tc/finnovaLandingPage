@@ -237,10 +237,10 @@ async function submit() {
         msg.includes('already') ||
         msg.includes('duplicate');
 
-      /*if (isDuplicate) {
+      if (isDuplicate) {
         error.value = 'Este correo ya está registrado en nuestra lista.';
         return;
-      }*/
+      }
 
       sendWaitlistMail({
         name: payload.name,
