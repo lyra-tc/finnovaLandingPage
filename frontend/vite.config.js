@@ -4,7 +4,6 @@ import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
 export default defineConfig(({ mode }) => {
-  // 👇 carga variables VITE_*
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
   return {
@@ -15,6 +14,15 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
+
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000', // vercel dev
+          changeOrigin: true,
+        },
       },
     },
   };

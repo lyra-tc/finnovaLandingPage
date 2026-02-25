@@ -43,7 +43,8 @@ export async function request<TResponse>(
     headers?: HeadersInit;
   }
 ): Promise<TResponse> {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const url = path.startsWith('/api') ? path : `${API_BASE}${path}`;
+  const res = await fetch(url, {
     method: options?.method ?? 'GET',
     headers: {
       'Content-Type': 'application/json',

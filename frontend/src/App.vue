@@ -4,6 +4,7 @@ import Hero from './components/Hero.vue';
 import HowItWorks from './components/HowItWorks.vue';
 import Investment from './components/Investment.vue';
 import Footer from './components/Footer.vue';
+import Mail from "@/components/Mail.vue";
 </script>
 
 <template>
