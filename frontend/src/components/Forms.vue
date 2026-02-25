@@ -19,8 +19,8 @@
           <div class="flex flex-col items-center text-center">
             <img :src="logoName" alt="Finnova" class="h-10 sm:h-14 w-auto select-none" />
             <p class="mt-4 sm:mt-6 text-base sm:text-2xl font-semibold leading-tight text-white">
-              Únete a la <span class="text-[#0FD985]">waitlist</span> y sé<br />
-              de los primeros.
+              Únete a la <span class="text-[#0FD985]">waitlist</span> y sé de los<br />
+              primeros en probar el <span class="text-[#0FD985]">early access</span>.
             </p>
           </div>
 
@@ -85,16 +85,16 @@
             <!-- Status messages -->
             <div
               v-if="error"
-              class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-left text-sm text-red-200"
+              class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200"
             >
               {{ error }}
             </div>
 
             <div
-              v-if="success"
-              class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-left text-sm text-emerald-100"
+              v-if="infoMessage"
+              class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100"
             >
-              Listo ✅ Te registraste en la waitlist.
+              {{ infoMessage }}
             </div>
 
             <!-- Actions -->
@@ -160,6 +160,7 @@ import { reactive, ref, watch, onBeforeUnmount } from 'vue';
 import logoName from '../assets/forms/LogoName.png';
 import { postWaitlist } from '@/api/waitlist';
 import type { WaitlistPayload } from '@/api/types';
+import { sendWaitlistMail } from '@/api/mail';
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
@@ -168,7 +169,7 @@ const form = reactive<WaitlistPayload>({
   name: '',
   phone: '',
   email: '',
-  age: 0,
+  age: null,
   updatesOptIn: true,
 });
 
@@ -183,47 +184,88 @@ function close() {
 
 function validate(): string | null {
   if (!form.name || form.name.trim().length < 3) return 'Pon tu nombre completo (mínimo 3 letras).';
-  if (!form.phone || form.phone.trim().length < 8) return 'Pon un teléfono válido.';
+  if (form.name.trim().length > 60) return 'El nombre no puede exceder los 60 caracteres.';
+  if (!form.phone || form.phone.trim().length <= 10 || form.phone.trim().length > 20)
+    return 'El teléfono debe tener entre 10 y 20 dígitos.';
   if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return 'Pon un correo válido.';
-  if (!Number.isFinite(form.age) || form.age <= 0) return 'Pon tu edad.';
+  if (!Number.isFinite(form.age) || form.age < 0 || form.age > 100)
+    return 'La edad debe estar entre 0 y 99 años.';
   return null;
 }
 
+const infoMessage = ref<string | null>(null);
+
 async function submit() {
   error.value = null;
-  success.value = false;
+  infoMessage.value = null;
 
-  const validationError = validate();
-  if (validationError) {
-    error.value = validationError;
+  const vError = validate();
+  if (vError) {
+    error.value = vError;
     return;
   }
 
   loading.value = true;
-
   try {
-    await postWaitlist({
-      name: form.name.trim(),
-      phone: form.phone.trim(),
-      email: form.email.trim(),
-      age: form.age,
-      updatesOptIn: form.updatesOptIn,
-    });
+    const payload = {
+      ...form,
+      name: form.name.replace(/<[^>]*>?/gm, '').trim(),
+      email: form.email.toLowerCase().trim().replace(/\s+/g, ''),
+      phone: form.phone.replace(/[^\d+]/g, '').replace(/^00/, '+'),
+      age: Math.min(99, Math.max(1, Math.trunc(form.age))),
+    };
+    let res: any = await postWaitlist(payload);
 
-    success.value = true;
+    if (typeof res === 'string') {
+      try {
+        res = JSON.parse(res);
+      } catch {}
+    }
 
-    form.name = '';
-    form.phone = '';
-    form.email = '';
-    form.age = 22;
-    form.updatesOptIn = true;
+    const ok = !!(
+      res &&
+      (res.ok === true || String(res.ok) === 'true' || res.ok === 1 || String(res.ok) === '1')
+    );
 
-    setTimeout(() => {
-      emit('close');
-      success.value = false;
-    }, 900);
+    const msg = String(res?.message || '').toLowerCase();
+
+    if (ok) {
+      const isDuplicate =
+        msg.includes('ya estabas') ||
+        msg.includes('ya estás') ||
+        msg.includes('ya existe') ||
+        msg.includes('already') ||
+        msg.includes('duplicate');
+
+      /*if (isDuplicate) {
+        error.value = 'Este correo ya está registrado en nuestra lista.';
+        return;
+      }*/
+
+      sendWaitlistMail({
+        name: payload.name,
+        email: payload.email,
+      })
+          .then((r: any) => {
+            console.log('MAIL OK:', r);
+          })
+          .catch((e: any) => {
+            console.error('MAIL FAIL:', e);
+          });
+
+      form.name = '';
+      form.phone = '';
+      form.email = '';
+      form.age = null;
+
+      infoMessage.value = '¡Bienvenido! Te has unido a la waitlist.';
+      close();
+    } else {
+      error.value = res?.message || 'No pudimos procesar tu registro.';
+    }
   } catch (e: any) {
-    error.value = e?.message || 'No se pudo enviar. Intenta de nuevo.';
+    console.error('Error en submit:', e);
+    error.value = e?.message || 'Error de conexión con el servidor.';
   } finally {
     loading.value = false;
   }

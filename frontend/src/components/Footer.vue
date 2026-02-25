@@ -1,5 +1,5 @@
 <template>
-  <footer id="contact" class="w-full bg-black text-white text-center">
+  <footer id="contact" class="w-full bg-transparent text-white text-center">
     <!-- Top divider (full width visual) -->
     <div class="w-full px-6 sm:px-10 lg:px-16 pt-10">
       <div class="mx-auto w-full max-w-screen-2xl">
@@ -28,9 +28,9 @@
             class="w-full flex flex-col items-center justify-center space-y-3 text-sm lg:items-start"
           >
             <a
-              href="#inicio"
+              href="#home"
               class="link-underline text-white/80 hover:text-white/80"
-              @click="(e) => goToHashWithAnim(e, '#inicio')"
+              @click="(e) => goToHashWithAnim(e, '#home')"
             >
               INICIO
             </a>
@@ -53,7 +53,7 @@
               class="link-underline text-white/80 hover:text-white/80"
               @click="openWaitlistWithAnim"
             >
-              WAITLIST
+              EARLY ACCESS
             </a>
             <Forms :open="isFormsOpen" @close="isFormsOpen = false" />
           </nav>

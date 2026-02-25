@@ -8,6 +8,6 @@ export type WaitlistPayload = {
 };
 
 export type WaitlistResponse = {
-  ok: true;
-  message?: string;
+  ok: boolean;
+  message: string;
 };
