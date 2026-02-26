@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 315.93 315.93"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:#223a58;}</style><linearGradient id="linear-gradient" x1="42.75" y1="155.07" x2="270.25" y2="155.07" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#91cd8f"/><stop offset="1" stop-color="#223a58"/></linearGradient></defs><g id="Capa_2" data-name="Capa 2"><g id="Capa_8" data-name="Capa 8"><rect class="cls-1" width="315.93" height="315.93"/><path class="cls-2" d="M42.75,159.36s11,35.74,53.7,35.74S171.7,115,213.87,115s56.38,44.32,56.38,44.32"/><path class="cls-3" d="M299.37,154.41H16.55a5,5,0,0,0,0,9.9H299.37a5,5,0,0,0,0-9.9Z"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 315.93 315.93" version="1.2" baseProfile="tiny-ps">
+  <defs>
+    <linearGradient id="linear-gradient" x1="42.75" y1="155.07" x2="270.25" y2="155.07" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#91cd8f"/>
+      <stop offset="1" stop-color="#223a58"/>
+    </linearGradient>
+  </defs>
+
+  <g>
+    <rect width="315.93" height="315.93" fill="#ffffff"/>
+    <path d="M42.75,159.36s11,35.74,53.7,35.74S171.7,115,213.87,115s56.38,44.32,56.38,44.32" fill="url(#linear-gradient)"/>
+    <path d="M299.37,154.41H16.55a5,5,0,0,0,0,9.9H299.37a5,5,0,0,0,0-9.9Z" fill="#223a58"/>
+  </g>
+</svg>
