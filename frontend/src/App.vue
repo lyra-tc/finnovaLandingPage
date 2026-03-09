@@ -4,6 +4,7 @@ import Hero from './components/Hero.vue';
 import HowItWorks from './components/HowItWorks.vue';
 import Investment from './components/Investment.vue';
 import Footer from './components/Footer.vue';
+import Features from "@/components/Features.vue";
 import Mail from "@/components/Mail.vue";
 </script>
 
@@ -11,6 +12,8 @@ import Mail from "@/components/Mail.vue";
   <div class="relative min-h-screen bg-black overflow-hidden">
     <Header />
     <Hero />
+
+    <Features />
 
     <!-- BLOCK 1: HowItWorks + RIGHT glow at its bottom edge -->
     <div class="relative">
