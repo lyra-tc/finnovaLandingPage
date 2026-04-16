@@ -18,7 +18,7 @@
         <img
           src="../assets/hero/heroPhone.png"
           alt="Hero Image"
-          class="mx-auto my-4 w-[50%] md:w-[70%] lg:w-[70%]"
+          class="hero-phone-float mx-auto my-4 w-[50%] md:w-[70%] lg:w-[70%]"
         />
       </div>
       <div class="atras text-left">
@@ -64,6 +64,28 @@ const isFormsOpen = ref(false);
 </script>
 
 <style scoped>
+.hero-phone-float {
+  animation: hero-phone-breathe 7.2s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes hero-phone-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.015);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-phone-float {
+    animation: none;
+  }
+}
+
 .left-text {
   position: absolute;
   text-align: justify;
