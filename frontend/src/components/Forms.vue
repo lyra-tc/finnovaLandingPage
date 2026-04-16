@@ -142,7 +142,14 @@
             <!-- Privacy -->
             <p class="text-left text-xs text-white/45">
               {{ t('forms.privacyPre') }}
-              <a href="#" class="link-underline text-[#0FD985]">{{ t('forms.privacyLink') }}</a>
+              <a
+                :href="privacyPolicyUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-underline text-[#0FD985]"
+              >
+                {{ t('forms.privacyLink') }}
+              </a>
             </p>
           </form>
         </div>
@@ -152,16 +159,23 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch, onBeforeUnmount } from 'vue';
+import { computed, reactive, ref, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import logoName from '../assets/forms/LogoName.png';
 import { postWaitlist } from '@/api/waitlist';
 import type { WaitlistPayload } from '@/api/types';
 import { sendWaitlistMail } from '@/api/mail';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
+
+const privacyPolicyUrl = computed(() => {
+  const isSpanish = locale.value.toLowerCase().startsWith('es');
+  return isSpanish
+    ? '/privacy-policies/Politicas%20de%20privacidad%20-%20Waitlist%20.pdf'
+    : '/privacy-policies/Privacy%20Policy%20-%20Waitlist%20.pdf';
+});
 
 const form = reactive<WaitlistPayload>({
   name: '',
