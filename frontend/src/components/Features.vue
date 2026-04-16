@@ -19,8 +19,7 @@
            modifica mt-10 / mt-14 / md:mt-16 / lg:mt-14 más abajo. -->
       <div class="text-center">
         <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-[#0FD985]">
-          Tu dinero, claro y <br />
-          bajo control
+          {{ t('features.title') }}
         </h2>
       </div>
 
@@ -67,7 +66,7 @@
                 class="dot h-2.5 w-2.5 rounded-full"
                 :class="i === mobileIndex ? 'is-active' : 'is-idle'"
                 @click="goTo(i)"
-                aria-label="Cambiar feature"
+                :aria-label="t('features.dotAriaLabel')"
               />
             </div>
           </Transition>
@@ -131,10 +130,10 @@
 
             <div class="max-w-xs md:max-w-sm">
               <h3 class="feature-text text-lg sm:text-xl lg:text-2xl font-semibold leading-snug">
-                Mostramos movimientos
+                {{ t('features.movimientos.title') }}
               </h3>
               <p class="feature-text mt-2 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
-                Clasificamos gastos e ingresos y mostramos “a dónde se va el dinero”.
+                {{ t('features.movimientos.desc') }}
               </p>
             </div>
           </div>
@@ -155,10 +154,10 @@
 
             <div class="max-w-xs md:max-w-sm">
               <h3 class="feature-text text-lg sm:text-xl lg:text-2xl font-semibold leading-snug">
-                Diagnóstico financiero
+                {{ t('features.diagnostico.title') }}
               </h3>
               <p class="feature-text mt-2 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
-                Identifica fugas de dinero y prioridades.
+                {{ t('features.diagnostico.desc') }}
               </p>
             </div>
           </div>
@@ -217,10 +216,10 @@
 
             <div class="max-w-xs md:max-w-sm md:ml-auto">
               <h3 class="feature-text text-lg sm:text-xl lg:text-2xl font-semibold leading-snug">
-                Reportes y tendencias
+                {{ t('features.reportes.title') }}
               </h3>
               <p class="feature-text mt-2 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
-                Visualiza tu mes y compara tu progreso.
+                {{ t('features.reportes.desc') }}
               </p>
             </div>
           </div>
@@ -241,10 +240,10 @@
 
             <div class="max-w-xs md:max-w-sm md:ml-auto">
               <h3 class="feature-text text-lg sm:text-xl lg:text-2xl font-semibold leading-snug">
-                Historial completo
+                {{ t('features.historial.title') }}
               </h3>
               <p class="feature-text mt-2 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
-                Registros con sello de tiempo para confianza.
+                {{ t('features.historial.desc') }}
               </p>
             </div>
           </div>
@@ -257,6 +256,8 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const isScrolled = ref(false);
 const featuresSection = ref(null);
@@ -323,43 +324,43 @@ const iconByFeature = {
 /* Lista de features para teléfono:
    - Orden = orden de navegación por dots/scroll.
    - Si agregas/quitas features, actualiza también las imágenes en phoneByFeature e iconByFeature. */
-const mobileFeatures = [
+const mobileFeatures = computed(() => [
   {
     id: "movimientos",
-    title: "Mostramos movimientos",
-    desc: "Clasificamos gastos e ingresos y mostramos “a dónde se va el dinero”.",
+    title: t("features.movimientos.title"),
+    desc: t("features.movimientos.desc"),
     icon: iconByFeature.movimientos,
   },
   {
     id: "diagnostico",
-    title: "Diagnóstico financiero",
-    desc: "Identifica fugas de dinero y prioridades.",
+    title: t("features.diagnostico.title"),
+    desc: t("features.diagnostico.desc"),
     icon: iconByFeature.diagnostico,
   },
   {
     id: "reportes",
-    title: "Reportes y tendencias",
-    desc: "Visualiza tu mes y compara tu progreso.",
+    title: t("features.reportes.title"),
+    desc: t("features.reportes.desc"),
     icon: iconByFeature.reportes,
   },
   {
     id: "historial",
-    title: "Historial completo",
-    desc: "Registros con sello de tiempo para confianza.",
+    title: t("features.historial.title"),
+    desc: t("features.historial.desc"),
     icon: iconByFeature.historial,
   },
-];
+]);
 
 const mobileIndex = ref(0);
 const mobileDone = ref(false);
-const activeMobileFeature = computed(() => mobileFeatures[mobileIndex.value]);
+const activeMobileFeature = computed(() => mobileFeatures.value[mobileIndex.value]);
 
 /* Teléfono mostrado:
    - En teléfono: depende del mobileIndex.
    - En tablet/desktop: depende de desktopFeature (hover/click). */
 const currentPhonePng = computed(() => {
   if (isMobileViewport.value) {
-    const id = mobileFeatures[mobileIndex.value]?.id;
+    const id = mobileFeatures.value[mobileIndex.value]?.id;
     return phoneByFeature[id] || defaultPhone;
   }
   return phoneByFeature[desktopFeature.value] || defaultPhone;
@@ -378,7 +379,7 @@ const canStepNow = () => {
 };
 
 const goTo = (i) => {
-  const clamped = Math.max(0, Math.min(i, mobileFeatures.length - 1));
+  const clamped = Math.max(0, Math.min(i, mobileFeatures.value.length - 1));
   if (clamped === mobileIndex.value) return;
   if (!canStepNow()) return;
   mobileIndex.value = clamped;
@@ -429,9 +430,9 @@ const unlockScroll = () => {
 const nextStep = () => {
   if (!canStepNow()) return;
 
-  if (mobileIndex.value < mobileFeatures.length - 1) {
+  if (mobileIndex.value < mobileFeatures.value.length - 1) {
     mobileIndex.value += 1;
-    if (mobileIndex.value === mobileFeatures.length - 1) mobileDone.value = true;
+    if (mobileIndex.value === mobileFeatures.value.length - 1) mobileDone.value = true;
     return;
   }
 

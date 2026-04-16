@@ -13,14 +13,14 @@
 
         <!-- Modal -->
         <div
-          class="relative w-full max-w-[420px] sm:max-w-[560px] rounded-[24px] sm:rounded-[32px] bg-black/80 border border-white/20 shadow-[0_40px_120px_rgba(0,0,0,0.75)] px-5 sm:px-10 pt-3 sm:pt-10 pb-6 sm:pb-20 max-h-[calc(100dvh-1.5rem)] sm:max-h-none overflow-y-auto overscroll-contain"
+          class="relative w-full max-w-[420px] sm:max-w-[560px] rounded-[24px] sm:rounded-[32px] bg-black/80 border border-white/20 shadow-[0_40px_120px_rgba(0,0,0,0.75)] px-5 sm:px-10 pt-3 sm:pt-10 pb-6 sm:pb-20 max-h-[calc(100dvh-1.5rem)] sm:max-h-none overflow-y-auto overscroll-contain lg:scale-[0.85] lg:origin-center lg:transform-gpu"
         >
           <!-- Header -->
           <div class="flex flex-col items-center text-center">
             <img :src="logoName" alt="Finnova" class="h-10 sm:h-14 w-auto select-none" />
             <p class="mt-4 sm:mt-6 text-base sm:text-2xl font-semibold leading-tight text-white">
-              Únete a la <span class="text-[#0FD985]">waitlist</span> y sé de los<br />
-              primeros en probar el <span class="text-[#0FD985]">early access</span>.
+              {{ t('forms.headlinePre') }} <span class="text-[#0FD985]">{{ t('forms.waitlist') }}</span> {{ t('forms.headlineMid') }}<br />
+              <span class="text-[#0FD985]">{{ t('forms.earlyAccess') }}</span>.
             </p>
           </div>
 
@@ -29,56 +29,52 @@
             <!-- Row 1 -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <div class="text-left">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">Nombre</label>
+                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">{{ t('forms.labelName') }}</label>
                 <input
                   v-model.trim="form.name"
                   type="text"
-                  placeholder="Ricardo Sierra Roa"
+                  :placeholder="t('forms.placeholderName')"
                   class="input-glass"
                 />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">Nombre completo</p>
+                <p class="mt-1 text-[11px] sm:text-xs text-white/40">{{ t('forms.hintName') }}</p>
               </div>
 
               <div class="text-left">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2"
-                  >Teléfono</label
-                >
+                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">{{ t('forms.labelPhone') }}</label>
                 <input
                   v-model.trim="form.phone"
                   type="tel"
-                  placeholder="+52 55 5555 5555"
+                  :placeholder="t('forms.placeholderPhone')"
                   class="input-glass"
                 />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">Para contacto rápido</p>
+                <p class="mt-1 text-[11px] sm:text-xs text-white/40">{{ t('forms.hintPhone') }}</p>
               </div>
             </div>
 
             <!-- Row 2 -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
               <div class="text-left sm:col-span-2">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">Correo</label>
+                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">{{ t('forms.labelEmail') }}</label>
                 <input
                   v-model.trim="form.email"
                   type="email"
-                  placeholder="tu@correo.com"
+                  :placeholder="t('forms.placeholderEmail')"
                   class="input-glass"
                 />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">
-                  Te mandaremos el acceso por aquí
-                </p>
+                <p class="mt-1 text-[11px] sm:text-xs text-white/40">{{ t('forms.hintEmail') }}</p>
               </div>
 
               <div class="text-left">
-                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">Edad</label>
+                <label class="block text-sm font-semibold text-white mb-1.5 sm:mb-2">{{ t('forms.labelAge') }}</label>
                 <input
                   v-model.number="form.age"
                   type="number"
                   min="0"
                   inputmode="numeric"
-                  placeholder="22"
+                  :placeholder="t('forms.placeholderAge')"
                   class="input-glass"
                 />
-                <p class="mt-1 text-[11px] sm:text-xs text-white/40">Solo para segmentación</p>
+                <p class="mt-1 text-[11px] sm:text-xs text-white/40">{{ t('forms.hintAge') }}</p>
               </div>
             </div>
 
@@ -104,8 +100,8 @@
                 :disabled="loading"
                 class="w-full rounded-xl bg-[#0FD985] py-3 sm:py-3.5 text-sm font-black text-black transition-all duration-300 hover:brightness-110 active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <span v-if="!loading">Entrar a la waitlist</span>
-                <span v-else>Enviando…</span>
+                <span v-if="!loading">{{ t('forms.btnSubmit') }}</span>
+                <span v-else>{{ t('forms.btnSubmitting') }}</span>
               </button>
 
               <button
@@ -114,7 +110,7 @@
                 @click="close"
                 :disabled="loading"
               >
-                Ahora no
+                {{ t('forms.btnClose') }}
               </button>
             </div>
 
@@ -139,14 +135,21 @@
                 </svg>
               </span>
               <span class="text-sm text-white/85 leading-snug">
-                Deseo recibir notificaciones y actualizaciones
+                {{ t('forms.checkboxLabel') }}
               </span>
             </label>
 
             <!-- Privacy -->
             <p class="text-left text-xs text-white/45">
-              Al enviar aceptas nuestra
-              <a href="#" class="link-underline text-[#0FD985]">política de privacidad</a>
+              {{ t('forms.privacyPre') }}
+              <a
+                :href="privacyPolicyUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-underline text-[#0FD985]"
+              >
+                {{ t('forms.privacyLink') }}
+              </a>
             </p>
           </form>
         </div>
@@ -156,14 +159,23 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch, onBeforeUnmount } from 'vue';
+import { computed, reactive, ref, watch, onBeforeUnmount } from 'vue';
+import { useI18n } from 'vue-i18n';
 import logoName from '../assets/forms/LogoName.png';
 import { postWaitlist } from '@/api/waitlist';
 import type { WaitlistPayload } from '@/api/types';
 import { sendWaitlistMail } from '@/api/mail';
 
+const { t, locale } = useI18n();
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
+
+const privacyPolicyUrl = computed(() => {
+  const isSpanish = locale.value.toLowerCase().startsWith('es');
+  return isSpanish
+    ? '/privacy-policies/Politicas%20de%20privacidad%20-%20Waitlist%20.pdf'
+    : '/privacy-policies/Privacy%20Policy%20-%20Waitlist%20.pdf';
+});
 
 const form = reactive<WaitlistPayload>({
   name: '',
@@ -183,13 +195,13 @@ function close() {
 }
 
 function validate(): string | null {
-  if (!form.name || form.name.trim().length < 3) return 'Pon tu nombre completo (mínimo 3 letras).';
-  if (form.name.trim().length > 60) return 'El nombre no puede exceder los 60 caracteres.';
+  if (!form.name || form.name.trim().length < 3) return t('forms.errorName');
+  if (form.name.trim().length > 60) return t('forms.errorNameMax');
   if (!form.phone || form.phone.trim().length <= 10 || form.phone.trim().length > 20)
-    return 'El teléfono debe tener entre 10 y 20 dígitos.';
-  if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return 'Pon un correo válido.';
+    return t('forms.errorPhone');
+  if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return t('forms.errorEmail');
   if (!Number.isFinite(form.age) || form.age < 0 || form.age > 100)
-    return 'La edad debe estar entre 0 y 99 años.';
+    return t('forms.errorAge');
   return null;
 }
 
@@ -238,7 +250,7 @@ async function submit() {
         msg.includes('duplicate');
 
       if (isDuplicate) {
-        error.value = 'Este correo ya está registrado en nuestra lista.';
+        error.value = t('forms.errorDuplicate');
         return;
       }
 
@@ -258,14 +270,14 @@ async function submit() {
       form.email = '';
       form.age = null;
 
-      infoMessage.value = '¡Bienvenido! Te has unido a la waitlist.';
+      infoMessage.value = t('forms.success');
       close();
     } else {
-      error.value = res?.message || 'No pudimos procesar tu registro.';
+      error.value = res?.message || t('forms.errorGeneric');
     }
   } catch (e: any) {
     console.error('Error en submit:', e);
-    error.value = e?.message || 'Error de conexión con el servidor.';
+    error.value = e?.message || t('forms.errorConnection');
   } finally {
     loading.value = false;
   }

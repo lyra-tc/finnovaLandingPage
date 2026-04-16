@@ -1,0 +1,112 @@
+{
+  "header": {
+    "home": "Inicio",
+    "features": "Funcionalidades",
+    "contact": "Contacto",
+    "earlyAccess": "Acceso Anticipado"
+  },
+  "hero": {
+    "the": "El",
+    "future": "Futuro",
+    "of": "de las",
+    "finance": "Finanzas",
+    "tagline1": "Simplifica tus finanzas. Invierte mejor. Únete al movimiento.",
+    "tagline2": "Administra, ahorra e invierte — todo en una app diseñada para ti.",
+    "appleStore": "Apple Store",
+    "googlePlay": "Google Play",
+    "comingSoon": "Próximamente",
+    "cta": "Unirse al Acceso Anticipado"
+  },
+  "features": {
+    "title": "Tu dinero, claro y bajo control",
+    "dotAriaLabel": "Cambiar feature",
+    "movimientos": {
+      "title": "Mostramos movimientos",
+      "desc": "Clasificamos gastos e ingresos y mostramos \"a dónde se va el dinero\"."
+    },
+    "diagnostico": {
+      "title": "Diagnóstico financiero",
+      "desc": "Identifica fugas de dinero y prioridades."
+    },
+    "reportes": {
+      "title": "Reportes y tendencias",
+      "desc": "Visualiza tu mes y compara tu progreso."
+    },
+    "historial": {
+      "title": "Historial completo",
+      "desc": "Registros con sello de tiempo para confianza."
+    }
+  },
+  "howItWorks": {
+    "title": "¿Cómo funciona?",
+    "subtitle": "Te ayudamos a ordenar tus finanzas, medir tu avance y mantenerte en ruta con recordatorios y recomendaciones personalizadas.",
+    "step1": {
+      "titlePart1": "Configura y",
+      "titlePart2": "organiza",
+      "titleMobile": "Configura y organiza",
+      "desc": "Conecta tus cuentas y define tus metas (ahorro, deudas, gastos)."
+    },
+    "step2": {
+      "titlePart1": "Monitorea tu",
+      "titlePart2": "progreso",
+      "titleMobile": "Monitorea tu progreso",
+      "desc": "Ve tu avance en tiempo real: presupuesto, ahorro, deudas y hábitos."
+    },
+    "step3": {
+      "titlePart1": "Mantente en",
+      "titlePart2": "ruta",
+      "titleMobile": "Mantente en ruta",
+      "desc": "Ajusta tu plan con recomendaciones claras: qué recortar, qué priorizar y cuándo pagar."
+    }
+  },
+  "investment": {
+    "title": "Que buscamos ...",
+    "p1": "Finnova está construyéndose con una meta clara: hacer que mejorar tu salud financiera sea simple, práctico y accesible. Estamos creando una plataforma que transforma tus datos en claridad y tus decisiones en progreso, con recomendaciones personalizadas y un plan de acción que sí puedes seguir.",
+    "p2": "Esto apenas comienza, y queremos que tú seas parte. Si crees que manejar tu dinero no debería ser complicado ni estresante, únete a Finnova: pruébala, comparte tu feedback y ayúdanos a diseñar la herramienta que hará la diferencia para miles de personas.",
+    "btnJoin": "Quiero unirme",
+    "btnTeam": "Hablar con el equipo"
+  },
+  "forms": {
+    "headlinePre": "Únete a la",
+    "waitlist": "waitlist",
+    "headlineMid": "y sé de los primeros en probar el",
+    "earlyAccess": "acceso anticipado",
+    "labelName": "Nombre",
+    "labelPhone": "Teléfono",
+    "labelEmail": "Correo",
+    "labelAge": "Edad",
+    "hintName": "Nombre completo",
+    "hintPhone": "Para contacto rápido",
+    "hintEmail": "Te mandaremos el acceso por aquí",
+    "hintAge": "Solo para segmentación",
+    "placeholderName": "Ricardo Sierra Roa",
+    "placeholderPhone": "+52 55 5555 5555",
+    "placeholderEmail": "tu{'@'}correo.com",
+    "placeholderAge": "22",
+    "btnSubmit": "Entrar a la waitlist",
+    "btnSubmitting": "Enviando…",
+    "btnClose": "Ahora no",
+    "checkboxLabel": "Deseo recibir notificaciones y actualizaciones",
+    "privacyPre": "Al enviar aceptas nuestra",
+    "privacyLink": "política de privacidad",
+    "errorDuplicate": "Este correo ya está registrado en nuestra lista.",
+    "success": "¡Bienvenido! Te has unido a la waitlist.",
+    "errorGeneric": "No pudimos procesar tu registro.",
+    "errorConnection": "Error de conexión con el servidor.",
+    "errorName": "Pon tu nombre completo (mínimo 3 letras).",
+    "errorNameMax": "El nombre no puede exceder los 60 caracteres.",
+    "errorPhone": "El teléfono debe tener entre 10 y 20 dígitos.",
+    "errorEmail": "Pon un correo válido.",
+    "errorAge": "La edad debe estar entre 0 y 99 años."
+  },
+  "footer": {
+    "cta": "¿Estás listo para cambiar tu futuro financiero?",
+    "navHome": "INICIO",
+    "navAbout": "NOSOTROS",
+    "navHowItWorks": "FUNCIONALIDADES",
+    "navEarlyAccess": "ACCESO ANTICIPADO",
+    "contact": "Contáctanos",
+    "copyright": "© {year} Finnova. Todos los derechos reservados.",
+    "devBy": "Desarrollado por LyraTech"
+  }
+}

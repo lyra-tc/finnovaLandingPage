@@ -16,9 +16,7 @@
           <!-- Col 1 -->
           <div class="w-full flex flex-col items-center justify-center space-y-4 lg:items-start">
             <h3 class="text-lg font-semibold leading-snug lg:text-left">
-              ¿Estás listo para<br />
-              cambiar tu futuro<br />
-              financiero?
+              {{ t('footer.cta') }}
             </h3>
             <div class="h-1 w-10 rounded-full bg-[#0FD985]"></div>
           </div>
@@ -32,28 +30,21 @@
               class="link-underline text-white/80 hover:text-white/80"
               @click="(e) => goToHashWithAnim(e, '#home')"
             >
-              INICIO
+              {{ t('footer.navHome') }}
             </a>
             <a
-              href="#nosotros"
+              href="#features"
               class="link-underline text-white/80 hover:text-white/80"
-              @click="(e) => goToHashWithAnim(e, '#nosotros')"
+              @click="(e) => goToHashWithAnim(e, '#features')"
             >
-              NOSOTROS
-            </a>
-            <a
-              href="#funcionamiento"
-              class="link-underline text-white/80 hover:text-white/80"
-              @click="(e) => goToHashWithAnim(e, '#funcionamiento')"
-            >
-              FUNCIONAMIENTO
+              {{ t('footer.navHowItWorks') }}
             </a>
             <a
               href="#waitlist"
               class="link-underline text-white/80 hover:text-white/80"
               @click="openWaitlistWithAnim"
             >
-              EARLY ACCESS
+              {{ t('footer.navEarlyAccess') }}
             </a>
             <Forms :open="isFormsOpen" @close="isFormsOpen = false" />
           </nav>
@@ -61,7 +52,7 @@
           <!-- Col 3 -->
           <div class="w-full flex flex-col items-center justify-center space-y-4">
             <div class="space-y-2">
-              <p class="text-sm font-semibold tracking-wide">Contáctanos</p>
+              <p class="text-sm font-semibold tracking-wide">{{ t('footer.contact') }}</p>
               <a
                 href="tel:+525564075229"
                 class="inline-flex items-center justify-center gap-2 text-sm text-white/80 hover:text-white transition"
@@ -107,13 +98,13 @@
         <!-- Bottom copy (centrado blindado) -->
         <div class="py-6 w-full flex justify-center">
           <p class="w-full text-left text-xs text-white/60">
-            © {{ year }} Finnova. Todos los derechos reservados.
+            {{ t('footer.copyright', { year }) }}
             <a
               href="https://lyratech.com.mx/"
               class="link-underline text-white"
               @click="(e) => openExternalWithAnim(e, 'https://lyratech.com.mx/')"
             >
-              Desarrollado por LyraTech
+              {{ t('footer.devBy') }}
             </a>
           </p>
         </div>
@@ -123,10 +114,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-import { ref } from 'vue';
-import Forms from './Forms.vue'; // ajusta ruta
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import Forms from './Forms.vue';
+const { t } = useI18n();
 const isFormsOpen = ref(false);
 
 function openWaitlistWithAnim(e: Event) {
