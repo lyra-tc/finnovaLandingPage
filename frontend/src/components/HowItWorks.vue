@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full bg-transparent text-white py-16 sm:py-20 md:py-32 lg:py-48">
+  <section class="w-full bg-transparent text-white py-16 sm:py-20 md:py-24 lg:py-32">
     <div class="mx-auto w-full max-w-6xl px-6 sm:px-10">
       <!-- Title -->
       <div class="text-center">
@@ -70,7 +70,7 @@
               <h3 class="text-xl lg:text-2xl font-semibold leading-snug">
                 {{ t('howItWorks.step1.titlePart1') }}<br />{{ t('howItWorks.step1.titlePart2') }}
               </h3>
-              <p class="mt-10 text-sm lg:text-lg text-white leading-relaxed">
+              <p class="mt-10 text-sm md:text-base lg:text-lg text-white leading-relaxed">
                 {{ t('howItWorks.step1.desc') }}
               </p>
             </div>
@@ -79,7 +79,7 @@
               <h3 class="text-xl lg:text-2xl font-semibold leading-snug">
                 {{ t('howItWorks.step2.titlePart1') }}<br />{{ t('howItWorks.step2.titlePart2') }}
               </h3>
-              <p class="mt-10 text-sm lg:text-lg text-white leading-relaxed">
+              <p class="mt-10 text-sm md:text-base lg:text-lg text-white leading-relaxed">
                 {{ t('howItWorks.step2.desc') }}
               </p>
             </div>
@@ -88,7 +88,7 @@
               <h3 class="text-xl lg:text-2xl font-semibold leading-snug">
                 {{ t('howItWorks.step3.titlePart1') }}<br />{{ t('howItWorks.step3.titlePart2') }}
               </h3>
-              <p class="mt-10 text-sm lg:text-lg text-white leading-relaxed">
+              <p class="mt-10 text-sm md:text-base lg:text-lg text-white leading-relaxed">
                 {{ t('howItWorks.step3.desc') }}
               </p>
             </div>

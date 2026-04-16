@@ -1,5 +1,5 @@
 <template>
-  <section class="relative w-full bg-transparent py-16 sm:py-20 overflow-hidden">
+  <section class="relative w-full bg-transparent py-16 sm:py-20 md:py-24 lg:py-32 overflow-hidden">
     <div class="relative mx-auto w-full max-w-5xl px-6 sm:px-10 lg:px-16">
       <!-- Title -->
       <h2
