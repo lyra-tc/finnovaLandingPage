@@ -13,7 +13,7 @@
 
         <!-- Modal -->
         <div
-          class="relative w-full max-w-[420px] sm:max-w-[560px] rounded-[24px] sm:rounded-[32px] bg-black/80 border border-white/20 shadow-[0_40px_120px_rgba(0,0,0,0.75)] px-5 sm:px-10 pt-3 sm:pt-10 pb-6 sm:pb-20 max-h-[calc(100dvh-1.5rem)] sm:max-h-none overflow-y-auto overscroll-contain"
+          class="relative w-full max-w-[420px] sm:max-w-[560px] rounded-[24px] sm:rounded-[32px] bg-black/80 border border-white/20 shadow-[0_40px_120px_rgba(0,0,0,0.75)] px-5 sm:px-10 pt-3 sm:pt-10 pb-6 sm:pb-20 max-h-[calc(100dvh-1.5rem)] sm:max-h-none overflow-y-auto overscroll-contain lg:scale-[0.85] lg:origin-center lg:transform-gpu"
         >
           <!-- Header -->
           <div class="flex flex-col items-center text-center">

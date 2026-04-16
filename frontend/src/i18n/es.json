@@ -1,21 +1,21 @@
 {
   "header": {
-    "home": "Home",
-    "features": "Features",
+    "home": "Inicio",
+    "features": "Funcionalidades",
     "contact": "Contacto",
-    "earlyAccess": "Early Access"
+    "earlyAccess": "Acceso Anticipado"
   },
   "hero": {
-    "the": "The",
-    "future": "Future",
-    "of": "of",
-    "finance": "Finance",
+    "the": "El",
+    "future": "Futuro",
+    "of": "de las",
+    "finance": "Finanzas",
     "tagline1": "Simplifica tus finanzas. Invierte mejor. Únete al movimiento.",
     "tagline2": "Administra, ahorra e invierte — todo en una app diseñada para ti.",
     "appleStore": "Apple Store",
     "googlePlay": "Google Play",
     "comingSoon": "Próximamente",
-    "cta": "Unirse al Early Access"
+    "cta": "Unirse al Acceso Anticipado"
   },
   "features": {
     "title": "Tu dinero, claro y bajo control",
@@ -70,7 +70,7 @@
     "headlinePre": "Únete a la",
     "waitlist": "waitlist",
     "headlineMid": "y sé de los primeros en probar el",
-    "earlyAccess": "early access",
+    "earlyAccess": "acceso anticipado",
     "labelName": "Nombre",
     "labelPhone": "Teléfono",
     "labelEmail": "Correo",
@@ -103,8 +103,8 @@
     "cta": "¿Estás listo para cambiar tu futuro financiero?",
     "navHome": "INICIO",
     "navAbout": "NOSOTROS",
-    "navHowItWorks": "FUNCIONAMIENTO",
-    "navEarlyAccess": "EARLY ACCESS",
+    "navHowItWorks": "FUNCIONALIDADES",
+    "navEarlyAccess": "ACCESO ANTICIPADO",
     "contact": "Contáctanos",
     "copyright": "© {year} Finnova. Todos los derechos reservados.",
     "devBy": "Desarrollado por LyraTech"

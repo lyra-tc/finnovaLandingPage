@@ -33,16 +33,9 @@
               {{ t('footer.navHome') }}
             </a>
             <a
-              href="#nosotros"
+              href="#features"
               class="link-underline text-white/80 hover:text-white/80"
-              @click="(e) => goToHashWithAnim(e, '#nosotros')"
-            >
-              {{ t('footer.navAbout') }}
-            </a>
-            <a
-              href="#funcionamiento"
-              class="link-underline text-white/80 hover:text-white/80"
-              @click="(e) => goToHashWithAnim(e, '#funcionamiento')"
+              @click="(e) => goToHashWithAnim(e, '#features')"
             >
               {{ t('footer.navHowItWorks') }}
             </a>

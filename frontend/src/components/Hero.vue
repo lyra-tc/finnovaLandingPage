@@ -1,7 +1,7 @@
 <template>
   <section
     id="home"
-    class="min-h-screen bg-hero-gradient content-center text-white pt-20 pb-16 md:pt-24 md:pb-24 -z-10"
+    class="min-h-screen bg-hero-gradient content-center text-white pt-20 pb-10 md:pt-10 md:pb-12 -z-10"
   >
     <div class="z-0 relative flex justify-center items-center px-4 text-center my-4">
       <div class="encima text-right">
@@ -9,16 +9,16 @@
         <h1 class="text-3xl md:text-7xl lg:text-8xl font-bold">{{ t('hero.future') }}</h1>
       </div>
       <div class="flex flex-col">
-        <div class="right-text hidden md:flex w-23 lg:w-28">
+        <div class="right-text hidden md:flex w-23 lg:w-32 lg:ml-20">
           <p class="lg:text-xs">{{ t('hero.tagline1') }}</p>
         </div>
-        <div class="left-text hidden md:flex w-26 lg:w-32">
+        <div class="left-text hidden md:flex w-26 lg:w-32 lg:mr-16">
           <p class="lg:text-xs">{{ t('hero.tagline2') }}</p>
         </div>
         <img
           src="../assets/hero/heroPhone.png"
           alt="Hero Image"
-          class="mx-auto my-4 w-[50%] md:w-[70%] lg:w-full"
+          class="mx-auto my-4 w-[50%] md:w-[70%] lg:w-[70%]"
         />
       </div>
       <div class="atras text-left">
@@ -26,7 +26,7 @@
         <h1 class="text-3xl md:text-7xl lg:text-8xl font-bold">{{ t('hero.finance') }}</h1>
       </div>
     </div>
-    <div class="flex items-center justify-center gap-6 mt-6">
+    <div class="flex items-center justify-center gap-6 mt-4 md:mt-6">
       <div class="flex items-center gap-3 bg-white/10 rounded-lg px-4 py-2 min-w-37.5">
         <font-awesome-icon :icon="['fab', 'apple']" />
         <span class="text-white font-semibold">{{ t('hero.appleStore') }}</span>
@@ -46,7 +46,7 @@
       <a
         href="#waitlist"
         @click="isFormsOpen = true"
-        class="btn-waitlist mx-auto mt-6 md:mt-12 md:px-12 md:py-3 inline-block font-semibold text-base md:text-lg lg:text-xl"
+        class="btn-waitlist mx-auto mt-4 md:mt-6 md:px-12 md:py-3 inline-block font-semibold text-base md:text-lg lg:text-xl"
       >
         {{ t('hero.cta') }}
       </a>

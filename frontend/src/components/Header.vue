@@ -6,11 +6,11 @@
       </div>
 
       <ul class="hidden md:flex space-x-6 text-xs lg:text-sm font-semibold items-center">
-        <li><a href="#home" class="nav-link-hover">{{ t('header.home') }}</a></li>
-        <li><a href="#features" class="nav-link-hover">{{ t('header.features') }}</a></li>
-        <li><a href="#contact" class="nav-link-hover">{{ t('header.contact') }}</a></li>
+        <li><a href="#home" class="nav-link-hover" @click.prevent="goToHash('#home')">{{ t('header.home') }}</a></li>
+        <li><a href="#features" class="nav-link-hover" @click.prevent="goToHash('#features')">{{ t('header.features') }}</a></li>
+        <li><a href="#contact" class="nav-link-hover" @click.prevent="goToHash('#contact')">{{ t('header.contact') }}</a></li>
         <li>
-          <a href="#waitlist" @click="isFormsOpen = true" class="btn-waitlist">{{ t('header.earlyAccess') }}</a>
+          <a href="#waitlist" @click.prevent="isFormsOpen = true" class="btn-waitlist">{{ t('header.earlyAccess') }}</a>
         </li>
       </ul>
 
@@ -47,12 +47,12 @@
         class="fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center md:hidden"
       >
         <ul class="text-center space-y-8 text-xl font-bold">
-          <li><a @click="isOpen = false" href="#home" class="nav-link-hover">{{ t('header.home') }}</a></li>
-          <li><a @click="isOpen = false" href="#features" class="nav-link-hover">{{ t('header.features') }}</a></li>
-          <li><a @click="isOpen = false" href="#contact" class="nav-link-hover">{{ t('header.contact') }}</a></li>
+          <li><a @click.prevent="goToHash('#home')" href="#home" class="nav-link-hover">{{ t('header.home') }}</a></li>
+          <li><a @click.prevent="goToHash('#features')" href="#features" class="nav-link-hover">{{ t('header.features') }}</a></li>
+          <li><a @click.prevent="goToHash('#contact')" href="#contact" class="nav-link-hover">{{ t('header.contact') }}</a></li>
           <li>
             <a
-              @click="((isOpen = false), (isFormsOpen = true))"
+              @click.prevent="((isOpen = false), (isFormsOpen = true))"
               href="#waitlist"
               class="btn-waitlist text-lg"
               >{{ t('header.earlyAccess') }}</a
@@ -72,4 +72,27 @@ import Forms from '@/components/Forms.vue';
 const { t } = useI18n();
 const isOpen = ref(false);
 const isFormsOpen = ref(false);
+
+function goToHash(hash) {
+  isOpen.value = false;
+
+  const el = document.querySelector(hash);
+  if (!el) return;
+
+  const headerHeight = document.querySelector('header')?.offsetHeight ?? 0;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+  let top = hash === '#contact'
+    ? maxScroll
+    : window.scrollY + el.getBoundingClientRect().top - headerHeight;
+
+  if (hash === '#home') top = 0;
+
+  window.scrollTo({
+    top: Math.max(0, Math.min(top, maxScroll)),
+    behavior: 'smooth',
+  });
+
+  history.replaceState(null, '', hash);
+}
 </script>
