@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
 
   return {
-    plugins: [vue(), vueDevTools()],
+    plugins: [vue(), vueDevTools({ componentInspector: false })],
     define: {
       __API_BASE__: JSON.stringify(env.VITE_API_BASE_URL ?? ''),
     },

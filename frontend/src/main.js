@@ -7,4 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
 library.add(faApple, faGooglePlay);
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app');
+import { i18n } from './i18n/index';
+
+createApp(App).use(i18n).component('font-awesome-icon', FontAwesomeIcon).mount('#app');
