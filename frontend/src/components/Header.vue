@@ -6,11 +6,11 @@
       </div>
 
       <ul class="hidden md:flex space-x-6 text-xs lg:text-sm font-semibold items-center">
-        <li><a href="#home" class="nav-link-hover">Home</a></li>
-        <li><a href="#features" class="nav-link-hover">Features</a></li>
-        <li><a href="#contact" class="nav-link-hover">Contact</a></li>
+        <li><a href="#home" class="nav-link-hover">{{ t('header.home') }}</a></li>
+        <li><a href="#features" class="nav-link-hover">{{ t('header.features') }}</a></li>
+        <li><a href="#contact" class="nav-link-hover">{{ t('header.contact') }}</a></li>
         <li>
-          <a href="#waitlist" @click="isFormsOpen = true" class="btn-waitlist">Early Access</a>
+          <a href="#waitlist" @click="isFormsOpen = true" class="btn-waitlist">{{ t('header.earlyAccess') }}</a>
         </li>
       </ul>
 
@@ -47,15 +47,15 @@
         class="fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center md:hidden"
       >
         <ul class="text-center space-y-8 text-xl font-bold">
-          <li><a @click="isOpen = false" href="#home" class="nav-link-hover">Home</a></li>
-          <li><a @click="isOpen = false" href="#features" class="nav-link-hover">Features</a></li>
-          <li><a @click="isOpen = false" href="#contact" class="nav-link-hover">Contact</a></li>
+          <li><a @click="isOpen = false" href="#home" class="nav-link-hover">{{ t('header.home') }}</a></li>
+          <li><a @click="isOpen = false" href="#features" class="nav-link-hover">{{ t('header.features') }}</a></li>
+          <li><a @click="isOpen = false" href="#contact" class="nav-link-hover">{{ t('header.contact') }}</a></li>
           <li>
             <a
               @click="((isOpen = false), (isFormsOpen = true))"
               href="#waitlist"
               class="btn-waitlist text-lg"
-              >Early Access</a
+              >{{ t('header.earlyAccess') }}</a
             >
           </li>
         </ul>
@@ -67,7 +67,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Forms from '@/components/Forms.vue';
+const { t } = useI18n();
 const isOpen = ref(false);
 const isFormsOpen = ref(false);
 </script>

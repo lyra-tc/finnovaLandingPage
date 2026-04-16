@@ -1,0 +1,112 @@
+{
+  "header": {
+    "home": "Home",
+    "features": "Features",
+    "contact": "Contact",
+    "earlyAccess": "Early Access"
+  },
+  "hero": {
+    "the": "The",
+    "future": "Future",
+    "of": "of",
+    "finance": "Finance",
+    "tagline1": "Simplify your finances. Invest smarter. Join the movement.",
+    "tagline2": "Manage, save, and invest — all in one app designed for you.",
+    "appleStore": "Apple Store",
+    "googlePlay": "Google Play",
+    "comingSoon": "Coming Soon",
+    "cta": "Join the Early Access"
+  },
+  "features": {
+    "title": "Your money, clear and under control",
+    "dotAriaLabel": "Change feature",
+    "movimientos": {
+      "title": "Transaction overview",
+      "desc": "We classify income and expenses and show you \"where your money goes\"."
+    },
+    "diagnostico": {
+      "title": "Financial diagnosis",
+      "desc": "Identify money leaks and priorities."
+    },
+    "reportes": {
+      "title": "Reports & trends",
+      "desc": "Visualize your month and compare your progress."
+    },
+    "historial": {
+      "title": "Full history",
+      "desc": "Time-stamped records for confidence."
+    }
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "We help you organize your finances, measure your progress, and stay on track with personalized reminders and recommendations.",
+    "step1": {
+      "titlePart1": "Set up &",
+      "titlePart2": "organize",
+      "titleMobile": "Set up and organize",
+      "desc": "Connect your accounts and define your goals (savings, debts, expenses)."
+    },
+    "step2": {
+      "titlePart1": "Monitor your",
+      "titlePart2": "progress",
+      "titleMobile": "Monitor your progress",
+      "desc": "Track your progress in real time: budget, savings, debts, and habits."
+    },
+    "step3": {
+      "titlePart1": "Stay on",
+      "titlePart2": "track",
+      "titleMobile": "Stay on track",
+      "desc": "Adjust your plan with clear recommendations: what to cut, what to prioritize, and when to pay."
+    }
+  },
+  "investment": {
+    "title": "What we're building ...",
+    "p1": "Finnova is being built with a clear goal: to make improving your financial health simple, practical, and accessible. We're creating a platform that transforms your data into clarity and your decisions into progress, with personalized recommendations and an action plan you can actually follow.",
+    "p2": "This is just the beginning, and we want you to be part of it. If you believe managing your money shouldn't be complicated or stressful, join Finnova: try it, share your feedback, and help us design the tool that will make a difference for thousands of people.",
+    "btnJoin": "I want to join",
+    "btnTeam": "Talk to the team"
+  },
+  "forms": {
+    "headlinePre": "Join the",
+    "waitlist": "waitlist",
+    "headlineMid": "and be among the first to try the",
+    "earlyAccess": "early access",
+    "labelName": "Name",
+    "labelPhone": "Phone",
+    "labelEmail": "Email",
+    "labelAge": "Age",
+    "hintName": "Full name",
+    "hintPhone": "For quick contact",
+    "hintEmail": "We'll send you access here",
+    "hintAge": "For segmentation only",
+    "placeholderName": "Ricardo Sierra Roa",
+    "placeholderPhone": "+52 55 5555 5555",
+    "placeholderEmail": "you{'@'}email.com",
+    "placeholderAge": "22",
+    "btnSubmit": "Join the waitlist",
+    "btnSubmitting": "Sending…",
+    "btnClose": "Not now",
+    "checkboxLabel": "I want to receive notifications and updates",
+    "privacyPre": "By submitting you accept our",
+    "privacyLink": "privacy policy",
+    "errorDuplicate": "This email is already registered on our list.",
+    "success": "Welcome! You've joined the waitlist.",
+    "errorGeneric": "We couldn't process your registration.",
+    "errorConnection": "Connection error with the server.",
+    "errorName": "Please enter your full name (minimum 3 characters).",
+    "errorNameMax": "Name cannot exceed 60 characters.",
+    "errorPhone": "Phone must have between 10 and 20 digits.",
+    "errorEmail": "Please enter a valid email address.",
+    "errorAge": "Age must be between 0 and 99 years."
+  },
+  "footer": {
+    "cta": "Are you ready to change your financial future?",
+    "navHome": "HOME",
+    "navAbout": "ABOUT",
+    "navHowItWorks": "HOW IT WORKS",
+    "navEarlyAccess": "EARLY ACCESS",
+    "contact": "Contact us",
+    "copyright": "© {year} Finnova. All rights reserved.",
+    "devBy": "Developed by LyraTech"
+  }
+}
