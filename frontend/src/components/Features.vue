@@ -25,7 +25,13 @@
 
       <!-- Vista teléfono:
            Activa cuando el ancho es menor a 768px (md:hidden). -->
-      <div class="md:hidden mt-10">
+      <div
+        class="md:hidden mt-10 mobile-feature-slider"
+        @touchstart="onSliderTouchStart"
+        @touchmove="onSliderTouchMove"
+        @touchend="onSliderTouchEnd"
+        @touchcancel="onSliderTouchEnd"
+      >
         <!-- Feature activo en teléfono:
              - Centrado (items-center + text-center).
              - Espaciado interno: gap-3.
@@ -381,9 +387,9 @@ const canStepNow = () => {
 const goTo = (i) => {
   const clamped = Math.max(0, Math.min(i, mobileFeatures.value.length - 1));
   if (clamped === mobileIndex.value) return;
-  if (!canStepNow()) return;
   mobileIndex.value = clamped;
-  mobileDone.value = mobileIndex.value === mobileFeatures.length - 1;
+  mobileDone.value = mobileIndex.value === mobileFeatures.value.length - 1;
+  lastStepAt = performance.now();
 };
 
 /* Scroll lock en teléfono:
@@ -482,6 +488,10 @@ const onWheel = (e) => {
    - Un cambio por swipe vertical (umbral en threshold). */
 let touchLatched = false;
 let touchStartY = 0;
+let sliderStartX = 0;
+let sliderStartY = 0;
+let sliderLatched = false;
+let sliderIntent = null;
 
 const onTouchStart = (e) => {
   if (!isMobile()) return;
@@ -514,6 +524,67 @@ const onTouchMove = (e) => {
 
 const onTouchEnd = () => {
   touchLatched = false;
+};
+
+const onSliderTouchStart = (e) => {
+  if (!isMobile()) return;
+  sliderStartX = e.touches?.[0]?.clientX ?? 0;
+  sliderStartY = e.touches?.[0]?.clientY ?? 0;
+  sliderLatched = false;
+  sliderIntent = null;
+};
+
+const onSliderTouchMove = (e) => {
+  if (!isMobile()) return;
+  if (sliderLatched) return;
+
+  const touch = e.touches?.[0];
+  if (!touch) return;
+
+  const dx = touch.clientX - sliderStartX;
+  const dy = touch.clientY - sliderStartY;
+
+  if (!sliderIntent && Math.max(Math.abs(dx), Math.abs(dy)) > 12) {
+    sliderIntent = Math.abs(dx) > Math.abs(dy) * 1.15 ? "horizontal" : "vertical";
+  }
+
+  if (sliderIntent === "horizontal") {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+
+const onSliderTouchEnd = (e) => {
+  if (!isMobile() || sliderLatched) {
+    sliderLatched = false;
+    sliderIntent = null;
+    return;
+  }
+
+  const touch = e.changedTouches?.[0];
+  if (!touch) {
+    sliderIntent = null;
+    return;
+  }
+
+  const dx = touch.clientX - sliderStartX;
+  const dy = touch.clientY - sliderStartY;
+  const threshold = 44;
+
+  if (Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy) * 1.15) {
+    sliderLatched = true;
+    const total = mobileFeatures.value.length;
+    if (total > 0) {
+      const nextIndex =
+        dx < 0
+          ? (mobileIndex.value + 1) % total
+          : (mobileIndex.value - 1 + total) % total;
+      goTo(nextIndex);
+    }
+  }
+
+  sliderLatched = false;
+  sliderIntent = null;
 };
 
 /* Teclado:
@@ -694,6 +765,10 @@ const glowClass = computed(() => ({
 </script>
 
 <style scoped>
+.mobile-feature-slider {
+  touch-action: pan-y;
+}
+
 /* Hover en tablet/desktop:
    Si quieres menos movimiento al hover, baja los valores de translate/scale o reduce la duración. */
 .feature-item {
