@@ -8,14 +8,19 @@
           : 'max-w-5xl border-transparent bg-transparent px-0 py-0 shadow-[0_0_0_rgba(15,217,133,0)] backdrop-blur-0 md:px-2 xl:max-w-[1400px]'
       "
     >
-      <div class="flex items-center">
+      <button
+        type="button"
+        class="flex items-center"
+        :aria-label="t('header.home')"
+        @click="goToHash('#home')"
+      >
         <img
           src="/logo.svg"
           alt="Company Logo"
           class="h-auto transition-all duration-300"
           :class="hasScrolled ? 'w-24 md:w-32 lg:w-36' : 'w-24 md:w-36 lg:w-44'"
         />
-      </div>
+      </button>
 
       <ul class="hidden md:flex items-center gap-5 text-xs font-semibold lg:gap-6 lg:text-sm">
         <li><a href="#home" class="nav-link-hover" @click.prevent="goToHash('#home')">{{ t('header.home') }}</a></li>
@@ -110,7 +115,7 @@ function goToHash(hash) {
     behavior: 'smooth',
   });
 
-  history.replaceState(null, '', hash);
+  history.replaceState(null, '', hash === '#home' ? window.location.pathname + window.location.search : hash);
 }
 
 onMounted(() => {
