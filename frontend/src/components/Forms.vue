@@ -177,7 +177,11 @@ const privacyPolicyUrl = computed(() => {
     : '/privacy-policies/Privacy%20Policy%20-%20Waitlist%20.pdf';
 });
 
-const form = reactive<WaitlistPayload>({
+type WaitlistFormState = Omit<WaitlistPayload, 'age'> & {
+  age: number | null;
+};
+
+const form = reactive<WaitlistFormState>({
   name: '',
   phone: '',
   email: '',
@@ -188,9 +192,19 @@ const form = reactive<WaitlistPayload>({
 const loading = ref(false);
 const error = ref<string | null>(null);
 const success = ref(false);
+const modalHistoryKey = '__finnovaWaitlistModal';
+const pushedModalHistory = ref(false);
+
+function removeModalHistoryEntry() {
+  if (!pushedModalHistory.value || !window.history.state?.[modalHistoryKey]) return;
+
+  pushedModalHistory.value = false;
+  window.history.back();
+}
 
 function close() {
   if (loading.value) return;
+  removeModalHistoryEntry();
   emit('close');
 }
 
@@ -200,8 +214,8 @@ function validate(): string | null {
   if (!form.phone || form.phone.trim().length <= 10 || form.phone.trim().length > 20)
     return t('forms.errorPhone');
   if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return t('forms.errorEmail');
-  if (!Number.isFinite(form.age) || form.age < 0 || form.age > 100)
-    return t('forms.errorAge');
+  const age = form.age;
+  if (age === null || !Number.isFinite(age) || age < 0 || age > 100) return t('forms.errorAge');
   return null;
 }
 
@@ -219,12 +233,13 @@ async function submit() {
 
   loading.value = true;
   try {
-    const payload = {
+    const age = Number(form.age);
+    const payload: WaitlistPayload = {
       ...form,
       name: form.name.replace(/<[^>]*>?/gm, '').trim(),
       email: form.email.toLowerCase().trim().replace(/\s+/g, ''),
       phone: form.phone.replace(/[^\d+]/g, '').replace(/^00/, '+'),
-      age: Math.min(99, Math.max(1, Math.trunc(form.age))),
+      age: Math.min(99, Math.max(1, Math.trunc(age))),
     };
     let res: any = await postWaitlist(payload);
 
@@ -287,6 +302,13 @@ function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'Escape' && props.open) close();
 }
 
+function onPopState() {
+  if (!props.open || !pushedModalHistory.value) return;
+
+  pushedModalHistory.value = false;
+  emit('close');
+}
+
 watch(
   () => props.open,
   (isOpen) => {
@@ -294,8 +316,21 @@ watch(
     success.value = false;
 
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    if (isOpen) window.addEventListener('keydown', onKeyDown);
-    else window.removeEventListener('keydown', onKeyDown);
+    if (isOpen) {
+      if (!window.history.state?.[modalHistoryKey]) {
+        window.history.pushState(
+          { ...(window.history.state || {}), [modalHistoryKey]: true },
+          '',
+          window.location.href
+        );
+      }
+      pushedModalHistory.value = true;
+      window.addEventListener('keydown', onKeyDown);
+      window.addEventListener('popstate', onPopState);
+    } else {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('popstate', onPopState);
+    }
   },
   { immediate: true }
 );
@@ -303,6 +338,7 @@ watch(
 onBeforeUnmount(() => {
   document.body.style.overflow = '';
   window.removeEventListener('keydown', onKeyDown);
+  window.removeEventListener('popstate', onPopState);
 });
 </script>
 
