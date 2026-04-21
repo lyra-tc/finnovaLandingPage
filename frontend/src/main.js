@@ -1,5 +1,4 @@
 import { ViteSSG } from 'vite-ssg'
-import { createHead } from '@vueuse/head'
 import { createI18n } from 'vue-i18n'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -28,10 +27,7 @@ export const createApp = ViteSSG(
       messages: { en, es },
     })
 
-    const head = createHead()
-
     app.use(i18n)
-    app.use(head)
     app.component('font-awesome-icon', FontAwesomeIcon)
   }
 )
