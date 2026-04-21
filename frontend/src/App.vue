@@ -1,11 +1,19 @@
 <script setup>
-import Header from './components/Header.vue';
-import Hero from './components/Hero.vue';
-import HowItWorks from './components/HowItWorks.vue';
-import Investment from './components/Investment.vue';
-import Footer from './components/Footer.vue';
-import Features from "@/components/Features.vue";
-import Mail from "@/components/Mail.vue";
+import { useSEO } from './composables/useSEO.js'
+import Header from './components/Header.vue'
+import Hero from './components/Hero.vue'
+import HowItWorks from './components/HowItWorks.vue'
+import Investment from './components/Investment.vue'
+import Footer from './components/Footer.vue'
+import Features from '@/components/Features.vue'
+import Mail from '@/components/Mail.vue'
+
+useSEO({
+  title: 'Finnova | App de Finanzas Personales en México',
+  description:
+    'Controla tus gastos, ahorra e invierte con Finnova. Diagnósticos financieros, reportes y plan personalizado. Únete al acceso anticipado.',
+  url: 'https://www.finnova.com.mx',
+})
 </script>
 
 <template>
