@@ -16,13 +16,16 @@ export default defineConfig(({ mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
-
+    ssgOptions: {
+      script: 'async',
+      formatting: 'minify',
+    },
     server: {
       host: '0.0.0.0',
       allowedHosts: ['blip-ambition-rumor.ngrok-free.dev'],
       proxy: {
         '/api': {
-          target: 'http://localhost:3000', // vercel dev
+          target: 'http://localhost:3000',
           changeOrigin: true,
         },
       },

@@ -315,6 +315,8 @@ watch(
     error.value = null;
     success.value = false;
 
+    if (typeof document === 'undefined') return;
+
     document.body.style.overflow = isOpen ? 'hidden' : '';
     if (isOpen) {
       if (!window.history.state?.[modalHistoryKey]) {
@@ -336,6 +338,7 @@ watch(
 );
 
 onBeforeUnmount(() => {
+  if (typeof document === 'undefined') return;
   document.body.style.overflow = '';
   window.removeEventListener('keydown', onKeyDown);
   window.removeEventListener('popstate', onPopState);
