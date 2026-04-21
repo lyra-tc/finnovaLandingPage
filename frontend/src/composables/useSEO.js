@@ -1,4 +1,4 @@
-import { useHead } from '@unhead/vue'
+import { useHead } from '@vueuse/head'
 
 export function useSEO({
   title,

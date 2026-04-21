@@ -338,6 +338,7 @@ watch(
 );
 
 onBeforeUnmount(() => {
+  if (typeof document === 'undefined') return;
   document.body.style.overflow = '';
   window.removeEventListener('keydown', onKeyDown);
   window.removeEventListener('popstate', onPopState);
