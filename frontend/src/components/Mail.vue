@@ -127,7 +127,7 @@
     <!-- Quick controls (solo preview) -->
     <div class="controls">
       <label>Nombre para probar</label>
-      <input v-model="name" placeholder="Ricardo Sierra Roa" />
+      <input v-model="name" placeholder="Tu nombre" />
       <small>Esto es solo preview en Vue. El email real se manda como HTML con estilos inline.</small>
     </div>
   </div>
@@ -136,7 +136,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-const name = ref('Ricardo Sierra Roa');
+const name = ref('Tu nombre');
 const firstName = computed(() => name.value.trim().split(/\s+/)[0] || 'Hola');
 
 // Images desde /public/email/...
