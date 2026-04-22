@@ -140,8 +140,9 @@
             </label>
 
             <!-- Privacy + Turnstile -->
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <p class="text-left text-xs text-white/45 sm:max-w-[60%]">
+            <div class="flex flex-row items-center justify-between gap-4 w-full mt-2">
+              
+              <p class="text-left text-xs text-white/45 flex-1 min-w-[130px]">
                 {{ t('forms.privacyPre') }}
                 <a
                   :href="privacyPolicyUrl"
@@ -153,7 +154,14 @@
                 </a>
               </p>
 
-              <div ref="turnstileEl" class="flex min-h-[78px] justify-end sm:shrink-0"></div>
+              <div class="relative w-[200px] h-[52px] shrink-0">
+                
+                <div class="absolute top-0 right-0 origin-top-right scale-[0.65]">
+                  <div ref="turnstileEl"></div>
+                </div>
+                
+              </div>
+
             </div>
           </form>
         </div>
