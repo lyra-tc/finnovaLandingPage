@@ -97,7 +97,8 @@
     "errorNameMax": "El nombre no puede exceder los 60 caracteres.",
     "errorPhone": "El teléfono debe tener entre 10 y 20 dígitos.",
     "errorEmail": "Pon un correo válido.",
-    "errorAge": "La edad debe estar entre 0 y 99 años."
+    "errorAge": "La edad debe estar entre 0 y 99 años.",
+    "errorCaptcha": "Completa la verificación de seguridad antes de continuar."
   },
   "footer": {
     "cta": "¿Estás listo para cambiar tu futuro financiero?",

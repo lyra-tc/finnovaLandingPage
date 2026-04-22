@@ -5,6 +5,7 @@ export type WaitlistPayload = {
   email: string;
   age: number;
   updatesOptIn: boolean;
+  turnstileToken: string;
 };
 
 export type WaitlistResponse = {
