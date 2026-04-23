@@ -301,7 +301,7 @@ function validate(): string | null {
     return t('forms.errorPhone');
   if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return t('forms.errorEmail');
   const age = form.age;
-  if (age === null || !Number.isFinite(age) || age < 0 || age > 100) return t('forms.errorAge');
+  if (age === null || !Number.isFinite(age) || age < 0 || age >= 100) return t('forms.errorAge');
   if (!captchaToken.value) return t('forms.errorCaptcha');
   return null;
 }
