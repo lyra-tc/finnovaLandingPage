@@ -154,12 +154,10 @@
                 </a>
               </p>
 
-              <div class="relative w-[200px] h-[52px] shrink-0">
-                
-                <div class="absolute top-0 right-0 origin-top-right scale-[0.65]">
+              <div class="relative w-[165px] h-[36px] shrink-0">
+                <div class="absolute top-0 right-0 origin-top-right scale-[0.55]">
                   <div ref="turnstileEl"></div>
                 </div>
-                
               </div>
 
             </div>
