@@ -69,7 +69,7 @@
               </a>
 
               <a
-                href="https://www.instagram.com/lyratech/"
+                href="https://www.instagram.com/finnova_mx/"
                 target="_blank"
                 class="group grid h-10 w-10 place-items-center rounded-full border border-white/30 text-white/80 transition-all duration-300 hover:border-[#0FD985] hover:text-[#0FD985]"
               >
