@@ -321,12 +321,13 @@ async function submit() {
   loading.value = true;
   try {
     const age = Number(form.age);
+    const normalizedAge = Math.min(99, Math.max(0, Math.trunc(age)));
     const payload: WaitlistPayload = {
       ...form,
       name: form.name.replace(/<[^>]*>?/gm, '').trim(),
       email: form.email.toLowerCase().trim().replace(/\s+/g, ''),
       phone: form.phone.replace(/[^\d+]/g, '').replace(/^00/, '+'),
-      age: Math.min(99, Math.max(1, Math.trunc(age))),
+      age: normalizedAge,
       turnstileToken: captchaToken.value,
     };
     let res: any = await postWaitlist(payload);
