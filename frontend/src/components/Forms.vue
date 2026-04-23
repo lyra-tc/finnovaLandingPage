@@ -139,18 +139,30 @@
               </span>
             </label>
 
-            <!-- Privacy -->
-            <p class="text-left text-xs text-white/45">
-              {{ t('forms.privacyPre') }}
-              <a
-                :href="privacyPolicyUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-underline text-[#0FD985]"
-              >
-                {{ t('forms.privacyLink') }}
-              </a>
-            </p>
+            <!-- Privacy + Turnstile -->
+            <div class="flex flex-row items-center justify-between gap-4 w-full mt-2">
+              
+              <p class="text-left text-xs text-white/45 flex-1 min-w-[130px]">
+                {{ t('forms.privacyPre') }}
+                <a
+                  :href="privacyPolicyUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link-underline text-[#0FD985]"
+                >
+                  {{ t('forms.privacyLink') }}
+                </a>
+              </p>
+
+              <div class="relative w-[200px] h-[52px] shrink-0">
+                
+                <div class="absolute top-0 right-0 origin-top-right scale-[0.65]">
+                  <div ref="turnstileEl"></div>
+                </div>
+                
+              </div>
+
+            </div>
           </form>
         </div>
       </div>
@@ -159,12 +171,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch, onBeforeUnmount } from 'vue';
+import { computed, reactive, ref, watch, onBeforeUnmount, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import logoName from '../assets/forms/LogoName.png';
 import { postWaitlist } from '@/api/waitlist';
 import type { WaitlistPayload } from '@/api/types';
 import { sendWaitlistMail } from '@/api/mail';
+import { HttpError } from '@/api/http';
 
 const { t, locale } = useI18n();
 const props = defineProps<{ open: boolean }>();
@@ -177,7 +190,79 @@ const privacyPolicyUrl = computed(() => {
     : '/privacy-policies/Privacy%20Policy%20-%20Waitlist%20.pdf';
 });
 
-type WaitlistFormState = Omit<WaitlistPayload, 'age'> & {
+
+// ---- Implementación de Cloudflare Turnstile -------
+const captchaToken = ref('');
+const turnstileEl = ref<HTMLDivElement | null>(null);
+const widgetId = ref<string | null>(null);
+const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+
+function waitForTurnstile(timeoutMs = 5000) {
+  if (window.turnstile) return Promise.resolve();
+
+  return new Promise<void>((resolve) => {
+    const startedAt = Date.now();
+
+    const tick = () => {
+      if (window.turnstile) {
+        resolve();
+        return;
+      }
+
+      if (Date.now() - startedAt >= timeoutMs) {
+        resolve();
+        return;
+      }
+
+      window.requestAnimationFrame(tick);
+    };
+
+    tick();
+  });
+}
+
+function renderTurnstile() {
+  if (!window.turnstile || !turnstileEl.value || !siteKey) return;
+
+  if (widgetId.value) {
+    // If we already have an instance for the current DOM node, only reset it.
+    window.turnstile.reset(widgetId.value);
+    return;
+  }
+
+  widgetId.value = window.turnstile.render(turnstileEl.value, {
+    sitekey: siteKey,
+    callback: (token: string) => {
+      captchaToken.value = token;
+    },
+    'expired-callback': () => {
+      captchaToken.value = '';
+    },
+    'error-callback': () => {
+      captchaToken.value = '';
+    },
+  });
+}
+
+function resetTurnstile() {
+  captchaToken.value = '';
+
+  if (widgetId.value && window.turnstile) {
+    window.turnstile.reset(widgetId.value);
+  }
+}
+
+function destroyTurnstile() {
+  captchaToken.value = '';
+
+  if (widgetId.value && window.turnstile?.remove) {
+    window.turnstile.remove(widgetId.value);
+  }
+
+  widgetId.value = null;
+}
+
+type WaitlistFormState = Omit<WaitlistPayload, 'age' | 'turnstileToken'> & {
   age: number | null;
 };
 
@@ -204,6 +289,7 @@ function removeModalHistoryEntry() {
 
 function close() {
   if (loading.value) return;
+  resetTurnstile();
   removeModalHistoryEntry();
   emit('close');
 }
@@ -215,7 +301,8 @@ function validate(): string | null {
     return t('forms.errorPhone');
   if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) return t('forms.errorEmail');
   const age = form.age;
-  if (age === null || !Number.isFinite(age) || age < 0 || age > 100) return t('forms.errorAge');
+  if (age === null || !Number.isFinite(age) || age < 0 || age >= 100) return t('forms.errorAge');
+  if (!captchaToken.value) return t('forms.errorCaptcha');
   return null;
 }
 
@@ -234,12 +321,14 @@ async function submit() {
   loading.value = true;
   try {
     const age = Number(form.age);
+    const normalizedAge = Math.min(99, Math.max(0, Math.trunc(age)));
     const payload: WaitlistPayload = {
       ...form,
       name: form.name.replace(/<[^>]*>?/gm, '').trim(),
       email: form.email.toLowerCase().trim().replace(/\s+/g, ''),
       phone: form.phone.replace(/[^\d+]/g, '').replace(/^00/, '+'),
-      age: Math.min(99, Math.max(1, Math.trunc(age))),
+      age: normalizedAge,
+      turnstileToken: captchaToken.value,
     };
     let res: any = await postWaitlist(payload);
 
@@ -284,15 +373,21 @@ async function submit() {
       form.phone = '';
       form.email = '';
       form.age = null;
+      resetTurnstile();
 
       infoMessage.value = t('forms.success');
       close();
     } else {
       error.value = res?.message || t('forms.errorGeneric');
+      resetTurnstile();
     }
   } catch (e: any) {
     console.error('Error en submit:', e);
-    error.value = e?.message || t('forms.errorConnection');
+    error.value =
+      e instanceof HttpError && e.status === 403
+        ? t('forms.errorCaptcha')
+        : e?.message || t('forms.errorConnection');
+    resetTurnstile();
   } finally {
     loading.value = false;
   }
@@ -311,7 +406,7 @@ function onPopState() {
 
 watch(
   () => props.open,
-  (isOpen) => {
+  async (isOpen) => {
     error.value = null;
     success.value = false;
 
@@ -319,6 +414,9 @@ watch(
 
     document.body.style.overflow = isOpen ? 'hidden' : '';
     if (isOpen) {
+      await nextTick();
+      await waitForTurnstile();
+      renderTurnstile();
       if (!window.history.state?.[modalHistoryKey]) {
         window.history.pushState(
           { ...(window.history.state || {}), [modalHistoryKey]: true },
@@ -330,6 +428,7 @@ watch(
       window.addEventListener('keydown', onKeyDown);
       window.addEventListener('popstate', onPopState);
     } else {
+      destroyTurnstile();
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('popstate', onPopState);
     }
@@ -338,6 +437,8 @@ watch(
 );
 
 onBeforeUnmount(() => {
+  destroyTurnstile();
+
   if (typeof document === 'undefined') return;
   document.body.style.overflow = '';
   window.removeEventListener('keydown', onKeyDown);
