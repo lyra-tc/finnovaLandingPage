@@ -97,7 +97,8 @@
     "errorNameMax": "Name cannot exceed 60 characters.",
     "errorPhone": "Phone must have between 10 and 20 digits.",
     "errorEmail": "Please enter a valid email address.",
-    "errorAge": "Age must be between 0 and 99 years."
+    "errorAge": "Age must be between 0 and 99 years.",
+    "errorCaptcha": "Complete the security check before continuing."
   },
   "footer": {
     "cta": "Are you ready to change your financial future?",
