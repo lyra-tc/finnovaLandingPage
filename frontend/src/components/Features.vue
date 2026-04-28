@@ -36,33 +36,8 @@
              - Centrado (items-center + text-center).
              - Espaciado interno: gap-3.
              - Limita ancho del texto con max-w-xs. -->
-        <Transition name="m-feature" mode="out-in">
-          <div class="flex flex-col items-center text-center gap-3" :key="activeMobileFeature.id">
-            <!-- Iconos (teléfono):
-                 Se usan PNG desde "activeMobileFeature.icon".
-                 El tamaño real del icono lo controlas en CSS (.icon-plain, .icon, .icon-lg). -->
-            <span class="icon-plain" aria-hidden="true">
-              <img :src="activeMobileFeature.icon" class="icon icon-lg" alt="" />
-            </span>
-
-            <div class="max-w-xs">
-              <h3 class="feature-text text-lg sm:text-xl font-semibold leading-snug">
-                {{ activeMobileFeature.title }}
-              </h3>
-              <p class="feature-text mt-2 text-sm sm:text-base text-white/80 leading-relaxed">
-                {{ activeMobileFeature.desc }}
-              </p>
-            </div>
-          </div>
-        </Transition>
-
-        <!-- Teléfono (imagen + glow):
-             - Separación respecto al texto: mt-8.
-             - El tamaño y posición de la imagen del teléfono se ajusta en las clases del <img>. -->
-        <div class="relative flex justify-center mt-8 phone-shell">
-          <!-- Indicadores (dots) solo en teléfono:
-               - Posición absoluta arriba del teléfono.
-               - Si quieres subir/bajar: cambia translate(-50%, 20px) en .mobile-dots. -->
+        <div class="relative flex justify-center phone-shell">
+          <!-- Indicadores (dots) solo en teléfono -->
           <Transition name="m-dots" mode="out-in">
             <div class="mobile-dots" :key="mobileIndex">
               <button
@@ -77,9 +52,7 @@
             </div>
           </Transition>
 
-          <!-- Glow (halo) detrás del teléfono:
-               - Tamaño controlado por --glowSize dentro de .phone-shell.
-               - Animación/estado controlado por isScrolled, glowPhase y glowStyle. -->
+          <!-- Glow (halo) detrás del teléfono -->
           <div
             aria-hidden="true"
             class="phone-glow pointer-events-none absolute z-0 will-change-transform transform-gpu"
@@ -87,16 +60,29 @@
             :style="glowStyle"
           ></div>
 
-          <!-- Imagen del teléfono:
-               Cambia automáticamente según el feature activo (mobile) o según hover/click (desktop/tablet). -->
+          <!-- Teléfono + texto: una sola transición para que animen juntos -->
           <Transition name="m-phone" mode="out-in">
-            <img
-              :key="currentPhonePng"
-              :src="currentPhonePng"
-              alt="App preview"
-              class="relative z-10 max-w-none will-change-transform transform-gpu drop-shadow-[0_50px_120px_rgba(0,0,0,0.9)] select-none pointer-events-none w-[120%] sm:w-[105%] translate-y-6"
-              draggable="false"
-            />
+            <div :key="currentPhonePng" class="relative flex justify-center w-full">
+              <img
+                :src="currentPhonePng"
+                alt="App preview"
+                class="relative z-10 max-w-none will-change-transform transform-gpu drop-shadow-[0_50px_120px_rgba(0,0,0,0.9)] select-none pointer-events-none w-[120%] sm:w-[105%] translate-y-6"
+                draggable="false"
+              />
+              <div class="mobile-feature-overlay">
+                <span class="icon-plain" aria-hidden="true">
+                  <img :src="activeMobileFeature.icon" class="icon icon-lg" alt="" />
+                </span>
+                <div>
+                  <h3 class="feature-text text-base font-semibold leading-snug">
+                    {{ activeMobileFeature.title }}
+                  </h3>
+                  <p class="feature-text mt-1 text-xs text-white/80 leading-relaxed">
+                    {{ activeMobileFeature.desc }}
+                  </p>
+                </div>
+              </div>
+            </div>
           </Transition>
         </div>
       </div>
@@ -767,6 +753,23 @@ const glowClass = computed(() => ({
 <style scoped>
 .mobile-feature-slider {
   touch-action: pan-y;
+}
+
+.mobile-feature-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  width: 62%;
+  padding: 0.85rem 1rem 1rem;
+  background: #000;
+  border-radius: 1.25rem;
 }
 
 /* Hover en tablet/desktop:
