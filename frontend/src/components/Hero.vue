@@ -80,7 +80,7 @@ const isFormsOpen = ref(false);
 .hero-stage {
   --hero-title-size: clamp(2.55rem, 6.2vw, 5.2rem);
   --hero-phone-width: clamp(13rem, 24vw, 21.5rem);
-  --hero-copy-left-offset: clamp(1.85rem, 6.2vw, 5.6rem);
+  --hero-copy-left-offset: clamp(2.1rem, 7.7vw, 6.5rem);
   --hero-copy-right-offset: clamp(0.8rem, 4vw, 3.6rem);
   --hero-side-offset: clamp(2rem, 6vw, 6rem);
 
@@ -224,7 +224,7 @@ const isFormsOpen = ref(false);
     transform: translateY(0) scale(1);
   }
   50% {
-    transform: translateY(-10px) scale(1.015);
+    transform: translateY(-17px) scale(1.030);
   }
 }
 
