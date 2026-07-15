@@ -47,5 +47,5 @@ frontend/src/
 ```
 VITE_API_BASE_URL=   # AWS Lambda base URL
 RESEND_API_KEY=      # Resend email service
-PUBLIC_APP_URL=      # https://finnova.com.mx
+PUBLIC_ASSETS_BASE_URL=  # https://assets.finnova.com.mx (bucket R2 con imágenes de correos)
 ```
