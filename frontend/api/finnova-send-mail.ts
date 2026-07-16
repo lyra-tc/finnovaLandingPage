@@ -3,13 +3,13 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-function waitlistEmailHTML(fullName: string, appUrl: string) {
+function waitlistEmailHTML(fullName: string, assetsUrl: string) {
     const firstName = (fullName || '').trim().split(/\s+/)[0] || 'Hola';
 
-    const headerImg = `${appUrl}/email/Welcome.png`;
-    const iconAccess = `${appUrl}/email/Access.png`;
-    const iconUpdates = `${appUrl}/email/Updates.png`;
-    const iconPriority = `${appUrl}/email/Priority.png`;
+    const headerImg = `${assetsUrl}/email/Welcome.png`;
+    const iconAccess = `${assetsUrl}/email/Access.png`;
+    const iconUpdates = `${assetsUrl}/email/Updates.png`;
+    const iconPriority = `${assetsUrl}/email/Priority.png`;
 
     return `
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;">
@@ -145,10 +145,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({ ok: false, message: 'Email inválido' });
         }
 
-        // Lee tu dominio público
-        const appUrl = process.env.PUBLIC_APP_URL || 'https://finnova.com.mx';
+        // Base pública del bucket de Cloudflare R2 que sirve las imágenes del correo
+        const assetsUrl = process.env.PUBLIC_ASSETS_BASE_URL || 'https://assets.finnova.com.mx';
 
-        const html = waitlistEmailHTML(String(name || ''), appUrl);
+        const html = waitlistEmailHTML(String(name || ''), assetsUrl);
 
         const result = await resend.emails.send({
             from: 'Finnova <waitlist@finnova.com.mx>',
