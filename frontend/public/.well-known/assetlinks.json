@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lyratech.finnova",
+      "sha256_cert_fingerprints": [
+        "DF:EC:59:2C:A0:20:30:AC:36:EB:53:D0:B0:BA:F1:EC:C7:C9:DE:CB:E7:E8:6D:A8:A4:0E:11:F3:92:64:10:5D"
+      ]
+    }
+  }
+]
